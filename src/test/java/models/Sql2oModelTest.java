@@ -11,13 +11,15 @@ import org.sql2o.Sql2o;
 import org.sql2o.converters.UUIDConverter;
 import org.sql2o.quirks.PostgresQuirks;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class Sql2oModelTest {
 
-    Sql2o sql2o = new Sql2o("jdbc:postgresql://localhost:5432/" + "acebook-test",
+    Sql2o sql2o = new Sql2o("jdbc:postgresql://localhost:5432/" + "acebook_test",
             null, null, new PostgresQuirks() {
         {
             // make sure we use default UUID converter.
@@ -30,7 +32,7 @@ class Sql2oModelTest {
     @BeforeAll
     static void setUpClass() {
         BasicConfigurator.configure();
-        Flyway flyway = Flyway.configure().dataSource("jdbc:postgresql://localhost:5432/acebook-test", null, null).load();
+        Flyway flyway = Flyway.configure().dataSource("jdbc:postgresql://localhost:5432/acebook_test", null, null).load();
         flyway.migrate();
 
     }
@@ -54,11 +56,26 @@ class Sql2oModelTest {
         conn.commit();
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     void createPost() {
+        Connection conn = sql2o.beginTransaction();
+        conn.createQuery("TRUNCATE TABLE posts")
+                .executeUpdate();
+        Model model = new Sql2oModel(sql2o);
+        conn.createQuery("insert into posts(post_id, title, content) VALUES (:post_id, 'Hello guys', 'good morning im having a swell day')")
+                .addParameter("post_id", id)
+                .executeUpdate();
+        conn.commit();
+        List<Post> posts = new ArrayList<Post>();
+        posts.add(new Post(id, "Hello guys", "good morning im having a swell day"));
+        assertEquals(model.getAllPosts(), posts);
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     void getAllPosts() {
+        Model model = new Sql2oModel(sql2o);
+        List<Post> posts = new ArrayList<Post>();
+        posts.add(new Post(id, "example title", "example content"));
+        assertEquals(model.getAllPosts(), posts);
     }
 }
