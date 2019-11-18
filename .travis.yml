@@ -1,0 +1,5 @@
+language: java
+services: postgresql
+before_install: psql -c 'CREATE DATABASE acebook;' -U postgres
+before script: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+script: mvn test
