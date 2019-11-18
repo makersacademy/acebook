@@ -1,5 +1,6 @@
 import models.Model;
 import models.Sql2oModel;
+import models.UserModel;
 import org.apache.log4j.BasicConfigurator;
 import org.flywaydb.core.Flyway;
 import org.sql2o.Sql2o;
@@ -10,7 +11,7 @@ import spark.ModelAndView;
 import java.util.HashMap;
 import java.util.UUID;
 
-import static spark.Spark.get;
+import static spark.Spark.*;
 
 public class Main {
 
@@ -41,5 +42,21 @@ public class Main {
 
             return new ModelAndView(posts, "templates/posts.vtl");
         }, new VelocityTemplateEngine());
+
+//        get("/sign-up", (req, res) -> {
+//           // return new ModelAndView(todos, "templates/todos.vtl");
+//        });
+
+        post("/sign-up", (req,res) -> {
+            String first_name = req.queryParams("first_name");
+            String last_name = req.queryParams("last_name");
+            String password = req.queryParams("password");
+            String email = req.queryParams("email");
+
+            UUID user = model.
+            res.redirect("/posts");
+
+            return null;
+        });
     }
 }

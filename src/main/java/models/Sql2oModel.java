@@ -6,7 +6,7 @@ import org.sql2o.Sql2o;
 import java.util.List;
 import java.util.UUID;
 
-public class Sql2oModel implements Model {
+public class Sql2oModel implements Model, UserModel {
 
     private Sql2o sql2o;
 
@@ -27,4 +27,8 @@ public class Sql2oModel implements Model {
         return null;
     }
 
+    @Override
+    public UUID createUser(String first_name, String last_name, String password, String email) {
+        return null;
+    }
 }
