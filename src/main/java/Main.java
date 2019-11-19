@@ -1,5 +1,6 @@
 import models.Model;
 import models.Sql2oModel;
+import models.UserModel;
 import org.apache.log4j.BasicConfigurator;
 import org.flywaydb.core.Flyway;
 import org.sql2o.Sql2o;
@@ -10,7 +11,7 @@ import spark.ModelAndView;
 import java.util.HashMap;
 import java.util.UUID;
 
-import static spark.Spark.get;
+import static spark.Spark.*;
 
 public class Main {
 
@@ -28,10 +29,7 @@ public class Main {
         });
 
         Model model = new Sql2oModel(sql2o);
-
-
-        get("/", (req, res) -> "Hello World");
-
+        UserModel userModel = new Sql2oModel(sql2o);
 
         get("/posts", (req, res) -> {
 
@@ -41,5 +39,29 @@ public class Main {
 
             return new ModelAndView(posts, "templates/posts.vtl");
         }, new VelocityTemplateEngine());
+
+        get("/", (req, res) -> {
+            HashMap users = new HashMap();
+            return new ModelAndView(users, "templates/sign-in.vtl");
+        }, new VelocityTemplateEngine());
+
+        get("/sign-up", (req, res) -> {
+            HashMap users = new HashMap();
+            return new ModelAndView(users, "templates/sign-up.vtl");
+        }, new VelocityTemplateEngine());
+
+        post("/sign-up", (req,res) -> {
+            String first_name = req.queryParams("first_name");
+            String last_name = req.queryParams("last_name");
+            String password = req.queryParams("password");
+            String email = req.queryParams("email");
+
+            userModel.createUser(first_name, last_name, password, email);
+
+            res.redirect("/posts");
+
+            return null;
+
+        });
     }
 }

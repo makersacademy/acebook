@@ -3,3 +3,4 @@ create table posts(
  title VARCHAR,
  content VARCHAR
 )
+
