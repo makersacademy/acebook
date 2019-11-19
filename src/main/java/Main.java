@@ -40,6 +40,11 @@ public class Main {
             return new ModelAndView(posts, "templates/posts.vtl");
         }, new VelocityTemplateEngine());
 
+        get("/", (req, res) -> {
+            HashMap users = new HashMap();
+            return new ModelAndView(users, "templates/sign-in.vtl");
+        }, new VelocityTemplateEngine());
+
         get("/sign-up", (req, res) -> {
             HashMap users = new HashMap();
             return new ModelAndView(users, "templates/sign-up.vtl");
