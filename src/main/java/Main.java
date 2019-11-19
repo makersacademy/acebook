@@ -31,9 +31,6 @@ public class Main {
         Model model = new Sql2oModel(sql2o);
 
 
-        get("/", (req, res) -> "Hello World");
-
-
         get("/posts", (req, res) -> {
 
 
@@ -43,9 +40,10 @@ public class Main {
             return new ModelAndView(posts, "templates/posts.vtl");
         }, new VelocityTemplateEngine());
 
-//        get("/sign-up", (req, res) -> {
-//           // return new ModelAndView(todos, "templates/todos.vtl");
-//        });
+        get("/sign-up", (req, res) -> {
+            HashMap users = new HashMap();
+            return new ModelAndView(users, "templates/sign-up.vtl");
+        }, new VelocityTemplateEngine());
 
         post("/sign-up", (req,res) -> {
             String first_name = req.queryParams("first_name");
@@ -53,7 +51,7 @@ public class Main {
             String password = req.queryParams("password");
             String email = req.queryParams("email");
 
-            UUID user = model.
+
             res.redirect("/posts");
 
             return null;
