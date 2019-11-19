@@ -1,5 +1,5 @@
 create table users(
- id SERIAL PRIMARY KEY,
+ id VARCHAR,
  first_name VARCHAR,
  last_name VARCHAR,
  email VARCHAR,

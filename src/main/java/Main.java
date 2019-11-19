@@ -29,7 +29,7 @@ public class Main {
         });
 
         Model model = new Sql2oModel(sql2o);
-
+        UserModel userModel = new Sql2oModel(sql2o);
 
         get("/posts", (req, res) -> {
 
@@ -51,10 +51,12 @@ public class Main {
             String password = req.queryParams("password");
             String email = req.queryParams("email");
 
+            userModel.createUser(first_name, last_name, password, email);
 
             res.redirect("/posts");
 
             return null;
+
         });
     }
 }
