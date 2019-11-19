@@ -41,20 +41,19 @@ public class Sql2oModel implements Model {
     @Override
     public void addLike(String id) {
         try (Connection conn = sql2o.open()) {
-            List<Post> likecount = conn.createQuery("SELECT likes FROM posts WHERE post_id =:id")
+            List<Integer> likecount = conn.createQuery("SELECT likes FROM posts WHERE post_id =:id")
                     .addParameter("id", id)
-                    .executeAndFetch(Post.class);
+                    .executeAndFetch(Integer.class);
             Integer i;
             String likes;
-            System.out.println(likecount);
-            i = Integer.parseInt(String.valueOf(likecount));
+            System.out.println(likecount.get(0));
+            i = Integer.parseInt(String.valueOf(likecount.get(0)));
             i += 1;
             likes = String.valueOf(i);
             conn.createQuery("UPDATE posts SET likes = :i WHERE post_id =:id")
                     .addParameter("i", i)
                     .addParameter("id", id)
                     .executeUpdate();
-            conn.commit();
         }
     }
 
