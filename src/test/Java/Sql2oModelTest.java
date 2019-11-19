@@ -32,7 +32,7 @@ class Sql2oModelTest {
     });
 
     UUID id = UUID.fromString("49921d6e-e210-4f68-ad7a-afac266278cb");
-
+    Timestamp timestamp = new Timestamp(System.currentTimeMillis());
     @BeforeAll
     static void setUpClass() {
         BasicConfigurator.configure();
@@ -40,15 +40,16 @@ class Sql2oModelTest {
         flyway.migrate();
 
     }
+
     @BeforeEach
     void setUp() {
         Connection conn = sql2o.beginTransaction();
-        conn.createQuery("insert into posts(post_id, title, content, time, likes) VALUES (:post_id, :title, :content, CURRENT_TIMESTAMP, 0)")
+        conn.createQuery("insert into posts(post_id, title, content, time, likes) VALUES (:post_id, :title, :content, :time, 0)")
                 .addParameter("post_id", id)
                 .addParameter("title", "example title")
                 .addParameter("content", "example content")
+                .addParameter("time", timestamp)
                 .executeUpdate();
-
         conn.commit();
     }
 
@@ -66,11 +67,13 @@ class Sql2oModelTest {
         conn.createQuery("TRUNCATE TABLE posts")
                 .executeUpdate();
         Model model = new Sql2oModel(sql2o);
-        conn.createQuery("insert into posts(post_id, title, content, time, likes) VALUES (:post_id, 'Hello guys', 'good morning im having a swell day', CURRENT_TIMESTAMP, 0)")
+        conn.createQuery("insert into posts(post_id, title, content, time, likes) VALUES (:post_id, 'Hello guys', 'good morning im having a swell day', :timestamp, 0)")
                 .addParameter("post_id", id)
+                .addParameter("timestamp", timestamp)
                 .executeUpdate();
         conn.commit();
         List<Post> posts = new ArrayList<Post>();
+        posts.add(new Post(id, "Hello guys", "good morning im having a swell day", timestamp, 0));
         assertEquals(model.getAllPosts(), posts);
     }
 
@@ -78,9 +81,6 @@ class Sql2oModelTest {
     void getAllPosts() {
         Model model = new Sql2oModel(sql2o);
         List<Post> posts = new ArrayList<Post>();
-        LocalDateTime now = LocalDateTime.now();
-        Timestamp timestamp = Timestamp.valueOf(now);
-        //Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         posts.add(new Post(id, "example title", "example content", timestamp, 0));
         assertEquals(model.getAllPosts(), posts);
     }
