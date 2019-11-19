@@ -11,6 +11,9 @@ import org.sql2o.Sql2o;
 import org.sql2o.converters.UUIDConverter;
 import org.sql2o.quirks.PostgresQuirks;
 
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -39,7 +42,7 @@ class Sql2oModelTest {
     @BeforeEach
     void setUp() {
         Connection conn = sql2o.beginTransaction();
-        conn.createQuery("insert into posts(post_id, title, content) VALUES (:post_id, :title, :content)")
+        conn.createQuery("insert into posts(post_id, title, content, time) VALUES (:post_id, :title, :content, CURRENT_TIMESTAMP)")
                 .addParameter("post_id", id)
                 .addParameter("title", "example title")
                 .addParameter("content", "example content")
@@ -62,12 +65,11 @@ class Sql2oModelTest {
         conn.createQuery("TRUNCATE TABLE posts")
                 .executeUpdate();
         Model model = new Sql2oModel(sql2o);
-        conn.createQuery("insert into posts(post_id, title, content) VALUES (:post_id, 'Hello guys', 'good morning im having a swell day')")
+        conn.createQuery("insert into posts(post_id, title, content, time) VALUES (:post_id, 'Hello guys', 'good morning im having a swell day', CURRENT_TIMESTAMP)")
                 .addParameter("post_id", id)
                 .executeUpdate();
         conn.commit();
         List<Post> posts = new ArrayList<Post>();
-        posts.add(new Post(id, "Hello guys", "good morning im having a swell day"));
         assertEquals(model.getAllPosts(), posts);
     }
 
@@ -75,7 +77,10 @@ class Sql2oModelTest {
     void getAllPosts() {
         Model model = new Sql2oModel(sql2o);
         List<Post> posts = new ArrayList<Post>();
-        posts.add(new Post(id, "example title", "example content"));
+        LocalDateTime now = LocalDateTime.now();
+        Timestamp timestamp = Timestamp.valueOf(now);
+        //Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        posts.add(new Post(id, "example title", "example content", timestamp));
         assertEquals(model.getAllPosts(), posts);
     }
 }

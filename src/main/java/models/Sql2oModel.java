@@ -19,7 +19,7 @@ public class Sql2oModel implements Model {
     public UUID createPost(String title, String content) {
         try (Connection conn = sql2o.beginTransaction()) {
             UUID postUuid = UUID.randomUUID();
-            conn.createQuery("insert into posts(post_id, title, content) VALUES (:post_id, :title, :content)")
+            conn.createQuery("insert into posts(post_id, title, content, time) VALUES (:post_id, :title, :content, CURRENT_TIMESTAMP)")
                     .addParameter("post_id", postUuid)
                     .addParameter("title", title)
                     .addParameter("content", content)
@@ -32,7 +32,7 @@ public class Sql2oModel implements Model {
     @Override
     public List<Post> getAllPosts() {
         try (Connection conn = sql2o.open()) {
-            List<Post> posts = conn.createQuery("select * from posts")
+            List<Post> posts = conn.createQuery("SELECT * FROM posts ORDER BY time DESC")
                     .executeAndFetch(Post.class);
             return posts;
         }

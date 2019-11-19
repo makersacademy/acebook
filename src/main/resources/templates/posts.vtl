@@ -8,7 +8,7 @@
     <h1>Welcome to acebook</h1>
     <ul>
         #foreach($p in $posts)
-            <li> <b><u>$p.title</u></b><br>$p.content </li>
+            <li> <b><u>$p.title</u></b><br>$p.content $p.time </li>
         #end
     </ul>
   </body>
