@@ -35,10 +35,8 @@ public class Main {
 
 
         get("/posts", (req, res) -> {
-
-
             HashMap posts = new HashMap();
-
+            posts.put("posts", model.getAllPosts());
 
             return new ModelAndView(posts, "templates/posts.vtl");
         }, new VelocityTemplateEngine());
