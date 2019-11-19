@@ -1,5 +1,3 @@
-package models;
-
 import org.apache.log4j.BasicConfigurator;
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.AfterEach;
@@ -17,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class Sql2oModelTest {
 
-    Sql2o sql2o = new Sql2o("jdbc:postgresql://localhost:5432/" + "acebook-test",
+    Sql2o sql2o = new Sql2o("jdbc:postgresql://localhost:5432/" + "acebook_test",
             null, null, new PostgresQuirks() {
         {
             // make sure we use default UUID converter.
@@ -30,7 +28,7 @@ class Sql2oModelTest {
     @BeforeAll
     static void setUpClass() {
         BasicConfigurator.configure();
-        Flyway flyway = Flyway.configure().dataSource("jdbc:postgresql://localhost:5432/acebook-test", null, null).load();
+        Flyway flyway = Flyway.configure().dataSource("jdbc:postgresql://localhost:5432/acebook_test", null, null).load();
         flyway.migrate();
 
     }
