@@ -42,7 +42,7 @@ class Sql2oModelTest {
     @BeforeEach
     void setUp() {
         Connection conn = sql2o.beginTransaction();
-        conn.createQuery("insert into posts(post_id, title, content, time) VALUES (:post_id, :title, :content, CURRENT_TIMESTAMP)")
+        conn.createQuery("insert into posts(post_id, title, content, time, likes) VALUES (:post_id, :title, :content, CURRENT_TIMESTAMP, 0)")
                 .addParameter("post_id", id)
                 .addParameter("title", "example title")
                 .addParameter("content", "example content")
@@ -65,7 +65,7 @@ class Sql2oModelTest {
         conn.createQuery("TRUNCATE TABLE posts")
                 .executeUpdate();
         Model model = new Sql2oModel(sql2o);
-        conn.createQuery("insert into posts(post_id, title, content, time) VALUES (:post_id, 'Hello guys', 'good morning im having a swell day', CURRENT_TIMESTAMP)")
+        conn.createQuery("insert into posts(post_id, title, content, time, likes) VALUES (:post_id, 'Hello guys', 'good morning im having a swell day', CURRENT_TIMESTAMP, 0)")
                 .addParameter("post_id", id)
                 .executeUpdate();
         conn.commit();
@@ -80,7 +80,7 @@ class Sql2oModelTest {
         LocalDateTime now = LocalDateTime.now();
         Timestamp timestamp = Timestamp.valueOf(now);
         //Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        posts.add(new Post(id, "example title", "example content", timestamp));
+        posts.add(new Post(id, "example title", "example content", timestamp, 0));
         assertEquals(model.getAllPosts(), posts);
     }
 }

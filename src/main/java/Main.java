@@ -54,5 +54,13 @@ public class Main {
             UUID id = model.createPost(title, content);
             return null;
         });
+
+        post("/likepost", (request, response) -> {
+            String id;
+            id = request.queryParams("id");
+            model.addLike(id);
+            response.redirect("/posts");
+            return null;
+        });
     }
 }

@@ -13,12 +13,14 @@ public class Post {
     private String title;
     private String content;
     private Timestamp time;
+    private Integer likes;
 
-    public Post(UUID post_id, String title, String content, Timestamp time) {
+    public Post(UUID post_id, String title, String content, Timestamp time, Integer likes) {
         this.post_id = post_id;
         this.title = title;
         this.content = content;
         this.time = time;
+        this.likes = likes;
     }
 
 }

@@ -19,7 +19,7 @@ public class Sql2oModel implements Model {
     public UUID createPost(String title, String content) {
         try (Connection conn = sql2o.beginTransaction()) {
             UUID postUuid = UUID.randomUUID();
-            conn.createQuery("insert into posts(post_id, title, content, time) VALUES (:post_id, :title, :content, CURRENT_TIMESTAMP)")
+            conn.createQuery("insert into posts(post_id, title, content, time, likes) VALUES (:post_id, :title, :content, CURRENT_TIMESTAMP, 0)")
                     .addParameter("post_id", postUuid)
                     .addParameter("title", title)
                     .addParameter("content", content)
@@ -35,6 +35,26 @@ public class Sql2oModel implements Model {
             List<Post> posts = conn.createQuery("SELECT * FROM posts ORDER BY time DESC")
                     .executeAndFetch(Post.class);
             return posts;
+        }
+    }
+
+    @Override
+    public void addLike(String id) {
+        try (Connection conn = sql2o.open()) {
+            List<Post> likecount = conn.createQuery("SELECT likes FROM posts WHERE post_id =:id")
+                    .addParameter("id", id)
+                    .executeAndFetch(Post.class);
+            Integer i;
+            String likes;
+            System.out.println(likecount);
+            i = Integer.parseInt(String.valueOf(likecount));
+            i += 1;
+            likes = String.valueOf(i);
+            conn.createQuery("UPDATE posts SET likes = :i WHERE post_id =:id")
+                    .addParameter("i", i)
+                    .addParameter("id", id)
+                    .executeUpdate();
+            conn.commit();
         }
     }
 

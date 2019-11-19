@@ -8,7 +8,12 @@
     <h1>Welcome to acebook</h1>
     <ul>
         #foreach($p in $posts)
-            <li> <b><u>$p.title</u></b><br>$p.content $p.time </li>
+            <li> <b><u>$p.title</u></b><br>$p.content $p.time $p.likes</li>
+            <form action="/likepost" method="post">
+                <input type="hidden" name="likecount" value=$p.likes>
+                <input type="hidden" name="id" value=$p.post_id>
+                <input type="submit" value="Like">
+            </form>
         #end
     </ul>
   </body>
