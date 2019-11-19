@@ -1,6 +1,7 @@
 import models.Model;
 import models.Sql2oModel;
 import models.UserModel;
+
 import org.apache.log4j.BasicConfigurator;
 import org.flywaydb.core.Flyway;
 import org.sql2o.Sql2o;
@@ -55,12 +56,13 @@ public class Main {
         });
 
         post("/likepost", (request, response) -> {
-                    String id;
-                    id = request.queryParams("id");
-                    model.addLike(id);
-                    response.redirect("/posts");
-                    return null;
-                });
+            String id;
+            id = request.queryParams("id");
+            model.addLike(id);
+            response.redirect("/posts");
+            return null;
+        });
+
         get("/", (req, res) -> {
             HashMap users = new HashMap();
             return new ModelAndView(users, "templates/sign-in.vtl");
@@ -84,5 +86,5 @@ public class Main {
             return null;
 
         });
-    }
+    };
 }

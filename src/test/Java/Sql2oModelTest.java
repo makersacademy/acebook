@@ -1,5 +1,6 @@
-package models;
-
+import models.Model;
+import models.Post;
+import models.Sql2oModel;
 import org.apache.log4j.BasicConfigurator;
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.AfterEach;
