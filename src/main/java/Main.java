@@ -11,6 +11,7 @@ import spark.ModelAndView;
 import java.util.HashMap;
 import java.util.UUID;
 
+
 import static spark.Spark.*;
 
 public class Main {
@@ -32,13 +33,33 @@ public class Main {
         UserModel userModel = new Sql2oModel(sql2o);
 
         get("/posts", (req, res) -> {
-
-
             HashMap posts = new HashMap();
-
+            posts.put("posts", model.getAllPosts());
 
             return new ModelAndView(posts, "templates/posts.vtl");
         }, new VelocityTemplateEngine());
+
+
+        get("/newpost", (req, res) -> {
+            return new ModelAndView(new HashMap<>(),"templates/newPost.vtl");
+        }, new VelocityTemplateEngine());
+
+        post("/newpost", (request, response) -> {
+            String title;
+            String content;
+            title = request.queryParams("title");
+            content = request.queryParams("content");
+            response.redirect("/posts");
+            UUID id = model.createPost(title, content);
+            return null;
+        });
+
+        post("/likepost", (request, response) -> {
+            String id;
+            id = request.queryParams("id");
+            model.addLike(id);
+            response.redirect("/posts");
+            return null;
 
         get("/", (req, res) -> {
             HashMap users = new HashMap();

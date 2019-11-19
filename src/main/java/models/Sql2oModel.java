@@ -17,14 +17,44 @@ public class Sql2oModel implements Model, UserModel {
 
     @Override
     public UUID createPost(String title, String content) {
-        //TODO - implement this
-        return null;
+        try (Connection conn = sql2o.beginTransaction()) {
+            UUID postUuid = UUID.randomUUID();
+            conn.createQuery("insert into posts(post_id, title, content, time, likes) VALUES (:post_id, :title, :content, CURRENT_TIMESTAMP, 0)")
+                    .addParameter("post_id", postUuid)
+                    .addParameter("title", title)
+                    .addParameter("content", content)
+                    .executeUpdate();
+            conn.commit();
+            return postUuid;
+        }
     }
 
     @Override
     public List<Post> getAllPosts() {
-        //TODO - implement this
-        return null;
+        try (Connection conn = sql2o.open()) {
+            List<Post> posts = conn.createQuery("SELECT * FROM posts ORDER BY time DESC")
+                    .executeAndFetch(Post.class);
+            return posts;
+        }
+    }
+
+    @Override
+    public void addLike(String id) {
+        try (Connection conn = sql2o.open()) {
+            List<Integer> likecount = conn.createQuery("SELECT likes FROM posts WHERE post_id =:id")
+                    .addParameter("id", id)
+                    .executeAndFetch(Integer.class);
+            Integer i;
+            String likes;
+            System.out.println(likecount.get(0));
+            i = Integer.parseInt(String.valueOf(likecount.get(0)));
+            i += 1;
+            likes = String.valueOf(i);
+            conn.createQuery("UPDATE posts SET likes = :i WHERE post_id =:id")
+                    .addParameter("i", i)
+                    .addParameter("id", id)
+                    .executeUpdate();
+        }
     }
 
     @Override
