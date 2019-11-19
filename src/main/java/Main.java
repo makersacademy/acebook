@@ -55,12 +55,12 @@ public class Main {
         });
 
         post("/likepost", (request, response) -> {
-            String id;
-            id = request.queryParams("id");
-            model.addLike(id);
-            response.redirect("/posts");
-            return null;
-
+                    String id;
+                    id = request.queryParams("id");
+                    model.addLike(id);
+                    response.redirect("/posts");
+                    return null;
+                });
         get("/", (req, res) -> {
             HashMap users = new HashMap();
             return new ModelAndView(users, "templates/sign-in.vtl");
