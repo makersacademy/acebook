@@ -2,9 +2,13 @@
 <html>
   <head>
     <title>Make a post</title>
+    <form action="/posts" method="get">
+        <input type="submit" value="Home">
+    </form>
     <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'>
   </head>
   <body>
+  <br><br>
     <form action="/newpost" method="post">
         <input type="text" name="title" placeholder="Title">
         <input type="text" name="content" placeholder="Content">

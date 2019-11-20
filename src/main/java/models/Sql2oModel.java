@@ -40,6 +40,22 @@ public class Sql2oModel implements Model, UserModel {
     }
 
     @Override
+    public UUID createUser(String first_name, String last_name, String password, String email) {
+        try (Connection conn = sql2o.beginTransaction()) {
+            UUID userUuid = UUID.randomUUID();
+            conn.createQuery("insert into users(id, first_name, last_name, password, email) VALUES (:id, :first_name, :last_name, :email, :password)")
+                    .addParameter("id", userUuid)
+                    .addParameter("first_name", first_name)
+                    .addParameter("last_name", last_name)
+                    .addParameter("email", email)
+                    .addParameter("password", password)
+                    .executeUpdate();
+            conn.commit();
+            return userUuid;
+        }
+    }
+
+    @Override
     public void addLike(String id) {
         try (Connection conn = sql2o.open()) {
             List<Integer> likecount = conn.createQuery("SELECT likes FROM posts WHERE post_id =:id")
@@ -47,7 +63,6 @@ public class Sql2oModel implements Model, UserModel {
                     .executeAndFetch(Integer.class);
             Integer i;
             String likes;
-            System.out.println(likecount.get(0));
             i = Integer.parseInt(String.valueOf(likecount.get(0)));
             i += 1;
             likes = String.valueOf(i);
@@ -59,18 +74,37 @@ public class Sql2oModel implements Model, UserModel {
     }
 
     @Override
-    public UUID createUser(String first_name, String last_name, String password, String email) {
+    public String gettingComments(UUID post_id) {
+        try (Connection conn = sql2o.open()) {
+            List<String> comments = conn.createQuery("SELECT comment FROM comments WHERE post_id =:id")
+                    .addParameter("id", post_id.toString())
+                    .executeAndFetch(String.class);
+            String commentsConvert;
+            commentsConvert = String.valueOf(comments);
+            return commentsConvert;
+        }
+    }
+
+    @Override
+    public void postComment(String comment, String post_id) {
         try (Connection conn = sql2o.beginTransaction()) {
-            UUID userUuid = UUID.randomUUID();
-            conn.createQuery("insert into users(id, first_name, last_name, email, password) VALUES (:id, :first_name, :last_name, :email, :password)")
-                    .addParameter("id", userUuid)
-                    .addParameter("first_name", first_name)
-                    .addParameter("last_name", last_name)
-                    .addParameter("email", email)
-                    .addParameter("password", password)
+
+            UUID commentUuid = UUID.randomUUID();
+            conn.createQuery("insert into comments(comment_id, post_id, comment) VALUES (:comment_id, :post_id, :comment)")
+                    .addParameter("comment_id", commentUuid)
+                    .addParameter("post_id", post_id)
+                    .addParameter("comment", comment)
                     .executeUpdate();
             conn.commit();
-            return userUuid;
+        }
+    }
+
+    @Override
+    public List<Comment> getAllComments() {
+        try (Connection conn = sql2o.open()) {
+            List<Comment> comments = conn.createQuery("SELECT post_id, comment FROM comments")
+                    .executeAndFetch(Comment.class);
+            return comments;
         }
     }
 
