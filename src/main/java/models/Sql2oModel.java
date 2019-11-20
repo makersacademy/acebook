@@ -10,9 +10,9 @@ public class Sql2oModel implements Model, UserModel {
 
     private Sql2o sql2o;
 
+    @org.jetbrains.annotations.Contract(pure = true)
     public Sql2oModel(Sql2o sql2o) {
         this.sql2o = sql2o;
-
     }
 
     @Override
@@ -44,12 +44,12 @@ public class Sql2oModel implements Model, UserModel {
             List<Integer> likecount = conn.createQuery("SELECT likes FROM posts WHERE post_id =:id")
                     .addParameter("id", id)
                     .executeAndFetch(Integer.class);
-            Integer i;
-            String likes;
+            int i;
+//            String likes;
             System.out.println(likecount.get(0));
             i = Integer.parseInt(String.valueOf(likecount.get(0)));
             i += 1;
-            likes = String.valueOf(i);
+//            likes = String.valueOf(i);
             conn.createQuery("UPDATE posts SET likes = :i WHERE post_id =:id")
                     .addParameter("i", i)
                     .addParameter("id", id)
