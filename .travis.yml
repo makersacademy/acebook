@@ -9,7 +9,7 @@ before_install:
   - export PATH=$M2_HOME/bin:$PATH
 install:
   - mvn --version
-  - mvn clean install
+  - mvn install
 before_script: ls target/
 script:
   - mvn verify
