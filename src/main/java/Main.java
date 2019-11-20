@@ -10,7 +10,7 @@ import spark.ModelAndView;
 import java.util.HashMap;
 import java.util.UUID;
 
-import static spark.Spark.get;
+import static spark.Spark.*;
 
 public class Main {
 
@@ -41,5 +41,17 @@ public class Main {
 
             return new ModelAndView(posts, "templates/posts.vtl");
         }, new VelocityTemplateEngine());
+
+        post("/sign-up", (req, res) -> {
+            String first_name = req.queryParams("first_name");
+            String last_name = req.queryParams("last_name");
+            String password = req.queryParams("password");
+            String email = req.queryParams("email");
+
+            res.redirect("/posts");
+
+            return null;
+        });
+        }
     }
 }

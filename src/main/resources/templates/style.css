@@ -1,0 +1,14 @@
+body {
+    background-color: lightblue;
+}
+h1 {
+    color: darkblue;
+    font-family: verdana;
+}
+p {
+    color: black;
+    font-family: verdana;
+}
+form {
+    border: 2px double darkblue;
+}
