@@ -1,6 +1,7 @@
 language: java
+jdk: openjdk13
 services: postgresql
-before_install: psql -c 'CREATE DATABASE acebook;' -U postgres
-install: mvn clean install
-before script: ls target/
+before_install: psql -c 'CREATE DATABASE acebook_test;' -U postgres
+install: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -V
+before_script: ls
 script: mvn test

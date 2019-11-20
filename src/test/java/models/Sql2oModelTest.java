@@ -1,3 +1,5 @@
+package models;
+
 import models.Model;
 import models.Post;
 import models.Sql2oModel;
