@@ -3,6 +3,7 @@ package models;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
+import java.sql.*;
 import java.util.List;
 import java.util.UUID;
 
@@ -87,6 +88,7 @@ public class Sql2oModel implements Model, UserModel {
     @Override
     public void postComment(String comment, String post_id) {
         try (Connection conn = sql2o.beginTransaction()) {
+
             UUID commentUuid = UUID.randomUUID();
             conn.createQuery("insert into comments(comment_id, post_id, comment) VALUES (:comment_id, :post_id, :comment)")
                     .addParameter("comment_id", commentUuid)
@@ -105,4 +107,20 @@ public class Sql2oModel implements Model, UserModel {
             return comments;
         }
     }
+
+    public Boolean verifyUser(String email, String password) {
+        boolean correct_password = false;
+
+        try (Connection conn = sql2o.open()) {
+            List<User> user = conn.createQuery("select password from users where email = :email")
+                    .addParameter("email", email)
+                    .executeAndFetch(User.class);
+            password = "[User(id=null, first_name=null, last_name=null, email=null, password="+password+")]";
+            if(user.toString().equals(password)){
+                correct_password = true;
+            };
+        }
+        return correct_password;
+    }
 }
+

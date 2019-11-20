@@ -64,10 +64,28 @@ public class Main {
             return null;
         });
 
+        //Sign in methods
+
         get("/", (req, res) -> {
             HashMap users = new HashMap();
             return new ModelAndView(users, "templates/sign-in.vtl");
         }, new VelocityTemplateEngine());
+
+
+        post("/sign-in", (req,res) -> {
+
+            String password = req.queryParams("password");
+            String email = req.queryParams("email");
+
+            if(userModel.verifyUser(email, password)) {
+                res.redirect("/posts");
+            }
+            res.redirect("/");
+            return null;
+        });
+
+
+        //Sign up methods
 
         get("/sign-up", (req, res) -> {
             HashMap users = new HashMap();
