@@ -1,5 +1,7 @@
 ### Acebook
 
+[![Build Status](https://travis-ci.org/luke-jones-1/acebook-java-spark-template.svg?branch=master)](https://travis-ci.org/luke-jones-1/acebook-java-spark-template)
+
 #### Running the application
 
  - Make sure postgres is running
