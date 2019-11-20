@@ -1,5 +1,5 @@
 language: java
-jdk: 13.0.1
+jdk: openjdk13
 services: postgresql
 before_install:
   - psql -c 'CREATE DATABASE acebook;' -U postgres
