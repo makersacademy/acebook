@@ -2,14 +2,9 @@ language: java
 jdk: openjdk13
 services: postgresql
 before_install:
-  - psql -c 'CREATE DATABASE acebook;' -U postgres
-  - wget https://archive.apache.org/dist/maven/maven-3/3.6.2/binaries/apache-maven-3.6.2-bin.zip
-  - unzip -qq apache-maven-3.6.2-bin.zip
-  - export M2_HOME=$PWD/apache-maven-3.6.2
-  - export PATH=$M2_HOME/bin:$PATH
+  - psql -c 'CREATE DATABASE acebook_test;' -U postgres
   - sudo apt-get install tree
 install:
-  - mvn --version
   - tree
   - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -V
 before_script: ls
