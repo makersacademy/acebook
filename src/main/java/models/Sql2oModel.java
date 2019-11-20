@@ -10,7 +10,7 @@ import java.util.UUID;
 public class Sql2oModel implements Model, UserModel {
 
     private Sql2o sql2o;
-    
+
     public Sql2oModel(Sql2o sql2o) {
         this.sql2o = sql2o;
     }
