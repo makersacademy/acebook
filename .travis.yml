@@ -1,6 +1,11 @@
 language: java
 services: postgresql
-before_install: psql -c 'CREATE DATABASE acebook;' -U postgres
+before_install:
+  - psql -c 'CREATE DATABASE acebook;' -U postgres
+  - wget https://archive.apache.org/dist/maven/maven-3/3.6.2/binaries/apache-maven-3.6.2-bin.zip
+  - unzip -qq apache-maven-3.6.2-bin.zip
+  - export M2_HOME=$PWD/apache-maven-3.6.2
+  - export PATH=$M2_HOME/bin:$PATH
 install:
   - mvn --version
   - mvn clean install
