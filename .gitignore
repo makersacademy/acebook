@@ -2,4 +2,4 @@ target/
 .idea/
 .DS_Store
 MessageBuilder.java
-MessageBuilderTest.java
+models.MessageBuilderTest.java

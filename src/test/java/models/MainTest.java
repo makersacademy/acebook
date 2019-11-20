@@ -21,7 +21,7 @@ public class MainTest {
     public static SparkServer<WebAppTestSparkApp> testServer = new SparkServer<>(WebAppTestSparkApp.class, 4567);
 
     @Test
-    public void serverRespondsSuccessfully() throws HttpClientException {
+    void serverRespondsSuccessfully() throws HttpClientException {
         GetMethod request = testServer.get("/", false);
         HttpResponse httpResponse = testServer.execute(request);
         assertEquals(200, httpResponse.code());
