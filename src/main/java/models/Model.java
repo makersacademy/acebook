@@ -9,6 +9,7 @@ public interface Model {
     UUID createPost(String title, String content);
     List getAllPosts();
     void addLike(String id);
+    String gettingComments(UUID post_id);
 }
 
 

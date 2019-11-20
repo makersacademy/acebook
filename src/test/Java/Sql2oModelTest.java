@@ -32,6 +32,8 @@ class Sql2oModelTest {
     });
 
     UUID id = UUID.fromString("49921d6e-e210-4f68-ad7a-afac266278cb");
+    UUID comment_id = UUID.fromString("49921d6e-e210-4f68-ad7a-afac266278cc");
+
     Timestamp timestamp = new Timestamp(System.currentTimeMillis());
     @BeforeAll
     static void setUpClass() {
@@ -56,15 +58,16 @@ class Sql2oModelTest {
     @AfterEach
     void tearDown() {
         Connection conn = sql2o.beginTransaction();
-        conn.createQuery("TRUNCATE TABLE posts")
+        conn.createQuery("TRUNCATE TABLE comments, posts")
                 .executeUpdate();
         conn.commit();
+        System.out.println("****");
     }
 
     @org.junit.jupiter.api.Test
     void createPost() {
         Connection conn = sql2o.beginTransaction();
-        conn.createQuery("TRUNCATE TABLE posts")
+        conn.createQuery("TRUNCATE TABLE comments, posts")
                 .executeUpdate();
         Model model = new Sql2oModel(sql2o);
         conn.createQuery("insert into posts(post_id, title, content, time, likes) VALUES (:post_id, 'Hello guys', 'good morning im having a swell day', :timestamp, 0)")
@@ -83,5 +86,18 @@ class Sql2oModelTest {
         List<Post> posts = new ArrayList<Post>();
         posts.add(new Post(id, "example title", "example content", timestamp, 0));
         assertEquals(model.getAllPosts(), posts);
+    }
+
+    @org.junit.jupiter.api.Test
+    void addComment() {
+        Connection conn = sql2o.beginTransaction();
+        Model model = new Sql2oModel(sql2o);
+        conn.createQuery("insert into comments(comment_id, post_id, comment) VALUES (:comment_id, :post_id, 'Looking good')")
+                .addParameter("comment_id", comment_id)
+                .addParameter("post_id", id)
+                .executeUpdate();
+        conn.commit();
+        String comments = model.gettingComments(id);
+        assertEquals( comments, "[Looking good]");
     }
 }
