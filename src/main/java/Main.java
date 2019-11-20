@@ -36,6 +36,7 @@ public class Main {
         get("/posts", (req, res) -> {
             HashMap posts = new HashMap();
             posts.put("posts", model.getAllPosts());
+            posts.put("comments", model.getAllComments());
 
             return new ModelAndView(posts, "templates/posts.vtl");
         }, new VelocityTemplateEngine());
@@ -85,6 +86,16 @@ public class Main {
 
             return null;
 
+        });
+
+        post("/postcomment", (request, response) -> {
+           String comment = request.queryParams("comment");
+           String post_id = request.queryParams("post_id");
+
+           model.postComment(comment, post_id);
+
+           response.redirect("/posts");
+           return null;
         });
     };
 }

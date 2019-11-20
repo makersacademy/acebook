@@ -61,7 +61,6 @@ class Sql2oModelTest {
         conn.createQuery("TRUNCATE TABLE comments, posts")
                 .executeUpdate();
         conn.commit();
-        System.out.println("****");
     }
 
     @org.junit.jupiter.api.Test

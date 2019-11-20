@@ -6,13 +6,28 @@
   </head>
   <body>
     <h1>Welcome to acebook</h1>
+    <br><br>
+    <form action="/newpost" method="get">
+        <input type="submit" value="Make A New Post">
+    </form>
     <ul>
         #foreach($p in $posts)
+            <br><br>
             <li> <b><u>$p.title</u></b><br>$p.content $p.time likes: $p.likes</li>
+            #foreach($c in $comments)
+                #if($c.post_id == $p.post_id)
+                    <li>$c.comment</li>
+                #end
+            #end
             <form action="/likepost" method="post">
                 <input type="hidden" name="likecount" value=$p.likes>
                 <input type="hidden" name="id" value=$p.post_id>
                 <input type="submit" value="Like">
+            </form>
+            <form action="/postcomment" method="post">
+                <input type="text" name="comment">
+                <input type="hidden" name="post_id" value=$p.post_id>
+                <input type="submit" value="Post Comment">
             </form>
         #end
     </ul>
