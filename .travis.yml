@@ -1,7 +1,9 @@
 language: java
 services: postgresql
 before_install: psql -c 'CREATE DATABASE acebook;' -U postgres
-install: mvn clean install
+install:
+  - brew install maven
+  - mvn clean install
 before_script: ls target/
 script:
   - mvn verify
