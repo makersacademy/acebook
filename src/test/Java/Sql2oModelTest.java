@@ -84,4 +84,13 @@ class Sql2oModelTest {
         posts.add(new Post(id, "example title", "example content", timestamp, 0));
         assertEquals(model.getAllPosts(), posts);
     }
+
+    @org.junit.jupiter.api.Test
+    void createUser(){
+
+    }
+    @org.junit.jupiter.api.Test
+    void verifyUser() {
+
+    }
 }
