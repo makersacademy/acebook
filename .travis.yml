@@ -9,8 +9,8 @@ before_install:
   - export PATH=$M2_HOME/bin:$PATH
 install:
   - mvn --version
-  - mvn install
-before_script: ls target/
+  - mvn install -DskipTests=true -Dmaven.javadoc.skip=true
+before_script: ls
 script:
   - mvn verify
   - mvn test
