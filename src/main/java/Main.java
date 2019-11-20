@@ -1,7 +1,4 @@
-import models.Model;
-import models.Sql2oModel;
-import models.UserModel;
-
+import models.*;
 import org.apache.log4j.BasicConfigurator;
 import org.flywaydb.core.Flyway;
 import org.sql2o.Sql2o;
