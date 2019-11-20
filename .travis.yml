@@ -7,8 +7,10 @@ before_install:
   - unzip -qq apache-maven-3.6.2-bin.zip
   - export M2_HOME=$PWD/apache-maven-3.6.2
   - export PATH=$M2_HOME/bin:$PATH
+  - sudo apt-get install tree
 install:
   - mvn --version
+  - tree
   - mvn install -DskipTests=true -Dmaven.javadoc.skip=true
 before_script: ls
 script:
