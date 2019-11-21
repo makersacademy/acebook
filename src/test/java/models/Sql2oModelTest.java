@@ -33,6 +33,9 @@ class Sql2oModelTest {
         }
     });
 
+    UserModel userModel= new Sql2oModel(sql2o);
+    Model model = new Sql2oModel(sql2o);
+    
     UUID id = UUID.fromString("49921d6e-e210-4f68-ad7a-afac266278cb");
     UUID comment_id = UUID.fromString("49921d6e-e210-4f68-ad7a-afac266278cc");
 
@@ -70,7 +73,6 @@ class Sql2oModelTest {
         Connection conn = sql2o.beginTransaction();
         conn.createQuery("TRUNCATE TABLE comments, posts")
                 .executeUpdate();
-        Model model = new Sql2oModel(sql2o);
         conn.createQuery("insert into posts(post_id, title, content, time, likes) VALUES (:post_id, 'Hello guys', 'good morning im having a swell day', :timestamp, 0)")
                 .addParameter("post_id", id)
                 .addParameter("timestamp", timestamp)
@@ -83,7 +85,6 @@ class Sql2oModelTest {
 
     @org.junit.jupiter.api.Test
     void getAllPosts() {
-        Model model = new Sql2oModel(sql2o);
         List<Post> posts = new ArrayList<Post>();
         posts.add(new Post(id, "example title", "example content", timestamp, 0));
         assertEquals(model.getAllPosts(), posts);
@@ -92,7 +93,6 @@ class Sql2oModelTest {
     @org.junit.jupiter.api.Test
     void addComment() {
         Connection conn = sql2o.beginTransaction();
-        Model model = new Sql2oModel(sql2o);
         conn.createQuery("insert into comments(comment_id, post_id, comment) VALUES (:comment_id, :post_id, 'Looking good')")
                 .addParameter("comment_id", comment_id)
                 .addParameter("post_id", id)
@@ -105,7 +105,6 @@ class Sql2oModelTest {
     @org.junit.jupiter.api.Test
     void addLike() {
         Connection conn = sql2o.open();
-        Model model = new Sql2oModel(sql2o);
         model.addLike(id.toString());
         List<Integer> likes = conn.createQuery("select likes from posts where post_id =:id")
                 .addParameter("id", id.toString())
@@ -114,7 +113,6 @@ class Sql2oModelTest {
     }
     @org.junit.jupiter.api.Test
     void verifyUser(){
-        UserModel userModel= new Sql2oModel(sql2o);
         userModel.createUser("Example", "name", "name@name.com", "password");
         List<User> user = new ArrayList<>();
         user.add(new User( id , "Example", "name", "name@name.com", "password"));
@@ -123,7 +121,6 @@ class Sql2oModelTest {
 
     @org.junit.jupiter.api.Test
     void createUser(){
-        UserModel userModel= new Sql2oModel(sql2o);
         userModel.createUser("Example", "name", "name@name.com", "password");
         assertTrue(userModel.verifyUser("name@name.com", "password"));
     }
