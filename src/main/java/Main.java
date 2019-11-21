@@ -96,12 +96,13 @@ public class Main {
             String password = req.queryParams("password");
             String email = req.queryParams("email");
 
-            userModel.createUser(first_name, last_name, password, email);
-
-            res.redirect("/posts");
-
+            if (model.doesEmailExist(email)) {
+                res.redirect("/sign-up");
+            } else {
+                userModel.createUser(first_name, last_name, password, email);
+                res.redirect("/posts");
+            }
             return null;
-
         });
 
         post("/postcomment", (request, response) -> {

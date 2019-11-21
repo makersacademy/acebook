@@ -36,6 +36,7 @@ class Sql2oModelTest {
 
     UUID id = UUID.fromString("49921d6e-e210-4f68-ad7a-afac266278cb");
     UUID comment_id = UUID.fromString("49921d6e-e210-4f68-ad7a-afac266278cc");
+
     Connection conn = sql2o.open();
     Model model = new Sql2oModel(sql2o);
     UserModel userModel= new Sql2oModel(sql2o);
@@ -62,7 +63,7 @@ class Sql2oModelTest {
     @AfterEach
     void tearDown() {
         conn.createQuery("TRUNCATE TABLE comments, posts, users")
-                .executeUpdate();
+        .executeUpdate();
     }
 
     @org.junit.jupiter.api.Test
@@ -133,7 +134,17 @@ class Sql2oModelTest {
 
     @org.junit.jupiter.api.Test
     void createUser(){
-        userModel.createUser("Example", "name","password","name@name.com");
-        assertTrue(userModel.verifyUser("name@name.com", "password"));
+        assertEquals(userModel.createUser("Example", "name","password","name@name.com").toString(), userModel.getUserID("name@name.com"));
+    }
+
+    @org.junit.jupiter.api.Test
+    void doesUserAlreadyExistYes(){
+        userModel.createUser("Example", "lastname", "password", "test@gmail.com");
+        assertTrue(model.doesEmailExist("test@gmail.com"));
+    }
+
+    @org.junit.jupiter.api.Test
+    void doesUserAlreadyExistNo(){
+        assertFalse(model.doesEmailExist("test@gmail.com"));
     }
 }
