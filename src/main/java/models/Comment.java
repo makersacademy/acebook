@@ -10,9 +10,9 @@ import lombok.Data;
 @Data
 
 public class Comment {
-    private UUID post_id;
+    UUID post_id;
     UUID comment_id;
-    private String comment;
+    String comment;
 
     public Comment (UUID post_id, UUID comment_id, String comment) {
         this.post_id = post_id;
