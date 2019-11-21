@@ -36,6 +36,7 @@ class Sql2oModelTest {
 
     UUID id = UUID.fromString("49921d6e-e210-4f68-ad7a-afac266278cb");
     UUID comment_id = UUID.fromString("49921d6e-e210-4f68-ad7a-afac266278cc");
+
     Connection conn = sql2o.open();
     Model model = new Sql2oModel(sql2o);
     UserModel userModel= new Sql2oModel(sql2o);
@@ -62,7 +63,7 @@ class Sql2oModelTest {
     @AfterEach
     void tearDown() {
         conn.createQuery("TRUNCATE TABLE comments, posts, users")
-                .executeUpdate();
+        .executeUpdate();
     }
 
     @org.junit.jupiter.api.Test
