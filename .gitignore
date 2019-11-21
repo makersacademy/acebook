@@ -1,5 +1,3 @@
 target/
 .idea/
 .DS_Store
-MessageBuilder.java
-models.MessageBuilderTest.java

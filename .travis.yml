@@ -3,4 +3,4 @@ jdk: openjdk13
 services: postgresql
 before_install: psql -c 'CREATE DATABASE acebook_test;' -U postgres
 install: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -V
-script: mvn test
+script: mvn clean test
