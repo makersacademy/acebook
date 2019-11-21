@@ -2,8 +2,8 @@ codecov:
   require_ci_to_pass: yes
 
 ignore:
-  - "src/main/java/*.java"
-#  - "src/main/java/VelocityTemplateEngine.java"
+  - "src/main/java/Main.java"
+  - "src/main/java/VelocityTemplateEngine.java"
 
 coverage:
   precision: 2
