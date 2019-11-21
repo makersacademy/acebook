@@ -1,6 +1,7 @@
 package models;
 
 import models.Model;
+import models.UserModel;
 import models.Post;
 import models.Sql2oModel;
 import org.apache.log4j.BasicConfigurator;
@@ -37,6 +38,7 @@ class Sql2oModelTest {
     UUID comment_id = UUID.fromString("49921d6e-e210-4f68-ad7a-afac266278cc");
     Connection conn = sql2o.open();
     Model model = new Sql2oModel(sql2o);
+    UserModel userModel= new Sql2oModel(sql2o);
 
     Timestamp timestamp = new Timestamp(System.currentTimeMillis());
     @BeforeAll
@@ -59,7 +61,8 @@ class Sql2oModelTest {
 
     @AfterEach
     void tearDown() {
-        conn.createQuery("TRUNCATE TABLE comments, posts")
+        Connection conn = sql2o.beginTransaction();
+        conn.createQuery("TRUNCATE TABLE comments, posts, users")
                 .executeUpdate();
     }
 
@@ -121,22 +124,17 @@ class Sql2oModelTest {
     }
 
     @org.junit.jupiter.api.Test
-    void createUser(){
-        UserModel userModel= new Sql2oModel(sql2o);
-        Connection conn = sql2o.beginTransaction();
-        conn.createQuery("TRUNCATE TABLE users")
-                .executeUpdate();
-        Model model = new Sql2oModel(sql2o);
-        conn.createQuery("insert into users(id, first_name, last_name, email, password) VALUES (:id, :first_name, :last_name, :email, :password)")
-                .addParameter("id", id)
-                .addParameter("first_name", "Example")
-                .addParameter("last_name", "name")
-                .addParameter("email", "name@name.com")
-                .addParameter("password", "password")
-                .executeUpdate();
-        conn.commit();
+    void verifyUser(){
+
+        userModel.createUser("Example", "name","password","name@name.com");
         List<User> user = new ArrayList<>();
         user.add(new User( id , "Example", "name", "name@name.com", "password"));
+        assertTrue(userModel.verifyUser("name@name.com", "password"));
+    }
+
+    @org.junit.jupiter.api.Test
+    void createUser(){
+        userModel.createUser("Example", "name","password","name@name.com");
         assertTrue(userModel.verifyUser("name@name.com", "password"));
     }
 }
