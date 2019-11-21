@@ -113,22 +113,18 @@ class Sql2oModelTest {
         assertEquals(likes.get(0), 1);
     }
     @org.junit.jupiter.api.Test
-    void createUser(){
+    void verifyUser(){
         UserModel userModel= new Sql2oModel(sql2o);
-        Connection conn = sql2o.beginTransaction();
-        conn.createQuery("TRUNCATE TABLE users")
-                .executeUpdate();
-        Model model = new Sql2oModel(sql2o);
-        conn.createQuery("insert into users(id, first_name, last_name, email, password) VALUES (:id, :first_name, :last_name, :email, :password)")
-                .addParameter("id", id)
-                .addParameter("first_name", "Example")
-                .addParameter("last_name", "name")
-                .addParameter("email", "name@name.com")
-                .addParameter("password", "password")
-                .executeUpdate();
-        conn.commit();
+        userModel.createUser("Example", "name", "name@name.com", "password");
         List<User> user = new ArrayList<>();
         user.add(new User( id , "Example", "name", "name@name.com", "password"));
+        assertTrue(userModel.verifyUser("name@name.com", "password"));
+    }
+
+    @org.junit.jupiter.api.Test
+    void createUser(){
+        UserModel userModel= new Sql2oModel(sql2o);
+        userModel.createUser("Example", "name", "name@name.com", "password");
         assertTrue(userModel.verifyUser("name@name.com", "password"));
     }
 }
