@@ -35,6 +35,8 @@ class Sql2oModelTest {
 
     UUID id = UUID.fromString("49921d6e-e210-4f68-ad7a-afac266278cb");
     UUID comment_id = UUID.fromString("49921d6e-e210-4f68-ad7a-afac266278cc");
+    Connection conn = sql2o.open();
+    Model model = new Sql2oModel(sql2o);
 
     Timestamp timestamp = new Timestamp(System.currentTimeMillis());
     @BeforeAll
@@ -47,35 +49,28 @@ class Sql2oModelTest {
 
     @BeforeEach
     void setUp() {
-        Connection conn = sql2o.beginTransaction();
         conn.createQuery("insert into posts(post_id, title, content, time, likes) VALUES (:post_id, :title, :content, :time, 0)")
                 .addParameter("post_id", id)
                 .addParameter("title", "example title")
                 .addParameter("content", "example content")
                 .addParameter("time", timestamp)
                 .executeUpdate();
-        conn.commit();
     }
 
     @AfterEach
     void tearDown() {
-        Connection conn = sql2o.beginTransaction();
         conn.createQuery("TRUNCATE TABLE comments, posts")
                 .executeUpdate();
-        conn.commit();
     }
 
     @org.junit.jupiter.api.Test
     void createPost() {
-        Connection conn = sql2o.beginTransaction();
         conn.createQuery("TRUNCATE TABLE comments, posts")
                 .executeUpdate();
-        Model model = new Sql2oModel(sql2o);
         conn.createQuery("insert into posts(post_id, title, content, time, likes) VALUES (:post_id, 'Hello guys', 'good morning im having a swell day', :timestamp, 0)")
                 .addParameter("post_id", id)
                 .addParameter("timestamp", timestamp)
                 .executeUpdate();
-        conn.commit();
         List<Post> posts = new ArrayList<Post>();
         posts.add(new Post(id, "Hello guys", "good morning im having a swell day", timestamp, 0));
         assertEquals(model.getAllPosts(), posts);
@@ -83,7 +78,6 @@ class Sql2oModelTest {
 
     @org.junit.jupiter.api.Test
     void getAllPosts() {
-        Model model = new Sql2oModel(sql2o);
         List<Post> posts = new ArrayList<Post>();
         posts.add(new Post(id, "example title", "example content", timestamp, 0));
         assertEquals(model.getAllPosts(), posts);
@@ -91,25 +85,38 @@ class Sql2oModelTest {
 
     @org.junit.jupiter.api.Test
     void addComment() {
-        Connection conn = sql2o.beginTransaction();
-        Model model = new Sql2oModel(sql2o);
         conn.createQuery("insert into comments(comment_id, post_id, comment) VALUES (:comment_id, :post_id, 'Looking good')")
                 .addParameter("comment_id", comment_id)
                 .addParameter("post_id", id)
                 .executeUpdate();
-        conn.commit();
         String comments = model.gettingComments(id);
         assertEquals( comments, "[Looking good]");
     }
 
     @org.junit.jupiter.api.Test
     void addLike() {
-        Connection conn = sql2o.open();
-        Model model = new Sql2oModel(sql2o);
         model.addLike(id.toString());
         List<Integer> likes = conn.createQuery("select likes from posts where post_id =:id")
                 .addParameter("id", id.toString())
                 .executeAndFetch(Integer.class);
         assertEquals(likes.get(0), 1);
+    }
+
+    @org.junit.jupiter.api.Test
+    void deletePost() {
+        model.deletePost(id.toString());
+        List<String> post_id = conn.createQuery("select post_id from posts where post_id =:id")
+                .addParameter("id", id.toString())
+                .executeAndFetch(String.class);
+        assertTrue(post_id.isEmpty());
+    }
+
+    @org.junit.jupiter.api.Test
+    void deleteComment() {
+        model.postComment("This is a comment", id.toString());
+        List<Comment> comments = model.getAllComments();
+        System.out.println(comments.get(0));
+        model.deleteComment(comments.get(0).comment_id.toString());
+        assertTrue(model.getAllComments().isEmpty());
     }
 }

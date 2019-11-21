@@ -11,7 +11,7 @@ import lombok.Data;
 
 public class Comment {
     private UUID post_id;
-    private UUID comment_id;
+    UUID comment_id;
     private String comment;
 
     public Comment (UUID post_id, UUID comment_id, String comment) {
