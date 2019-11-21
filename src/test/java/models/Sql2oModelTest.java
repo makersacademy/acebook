@@ -1,6 +1,7 @@
 package models;
 
 import models.Model;
+import models.UserModel;
 import models.Post;
 import models.Sql2oModel;
 import org.apache.log4j.BasicConfigurator;
@@ -35,7 +36,7 @@ class Sql2oModelTest {
 
     UserModel userModel= new Sql2oModel(sql2o);
     Model model = new Sql2oModel(sql2o);
-    
+
     UUID id = UUID.fromString("49921d6e-e210-4f68-ad7a-afac266278cb");
     UUID comment_id = UUID.fromString("49921d6e-e210-4f68-ad7a-afac266278cc");
 
@@ -63,7 +64,7 @@ class Sql2oModelTest {
     @AfterEach
     void tearDown() {
         Connection conn = sql2o.beginTransaction();
-        conn.createQuery("TRUNCATE TABLE comments, posts")
+        conn.createQuery("TRUNCATE TABLE comments, posts, users")
                 .executeUpdate();
         conn.commit();
     }
@@ -113,7 +114,8 @@ class Sql2oModelTest {
     }
     @org.junit.jupiter.api.Test
     void verifyUser(){
-        userModel.createUser("Example", "name", "name@name.com", "password");
+
+        userModel.createUser("Example", "name","password","name@name.com");
         List<User> user = new ArrayList<>();
         user.add(new User( id , "Example", "name", "name@name.com", "password"));
         assertTrue(userModel.verifyUser("name@name.com", "password"));
@@ -121,7 +123,7 @@ class Sql2oModelTest {
 
     @org.junit.jupiter.api.Test
     void createUser(){
-        userModel.createUser("Example", "name", "name@name.com", "password");
+        userModel.createUser("Example", "name","password","name@name.com");
         assertTrue(userModel.verifyUser("name@name.com", "password"));
     }
 }
