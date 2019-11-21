@@ -139,5 +139,17 @@ public class Sql2oModel implements Model, UserModel {
         }
         return correct_password;
     }
+
+    public boolean doesEmailExist(String email) {
+        try (Connection conn = sql2o.open()) {
+            List<String> emails = conn.createQuery("select email from users")
+                    .executeAndFetch(String.class);
+            for (String s : emails)
+                if (email.equals(s)) {
+                    return true;
+                }
+            return false;
+        }
+    }
 }
 
