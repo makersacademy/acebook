@@ -29,5 +29,5 @@ comment:
   after_n_builds: 1 #e.g., 5. The number of uploaded reports codecov will receive before posting a comment on a pull request.
 
 ignore:
-  - "src/main/java/Main.java"
-  - "src/main/java/VelocityTemplateEngine.java"
+  - "./src/main/java/Main.java"
+  - "./src/main/java/VelocityTemplateEngine.java"
