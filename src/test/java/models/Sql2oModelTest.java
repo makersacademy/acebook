@@ -118,6 +118,7 @@ class Sql2oModelTest {
         System.out.println(comments.get(0));
         model.deleteComment(comments.get(0).comment_id.toString());
         assertTrue(model.getAllComments().isEmpty());
+    }
 
     @org.junit.jupiter.api.Test
     void createUser(){
