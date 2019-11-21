@@ -73,7 +73,7 @@ class Sql2oModelTest {
         conn.createQuery("insert into posts(post_id, title, content, time, likes) VALUES (:post_id, 'Hello guys', 'good morning im having a swell day', :timestamp, 0)")
                 .addParameter("post_id", id)
                 .addParameter("timestamp", timestamp)
-                .executeUpdate();g
+                .executeUpdate();
         List<Post> posts = new ArrayList<Post>();
         posts.add(new Post(id, "Hello guys", "good morning im having a swell day", timestamp, 0));
         assertEquals(model.getAllPosts(), posts);
