@@ -101,7 +101,4 @@ class Sql2oModelTest {
         String comments = model.gettingComments(id);
         assertEquals( comments, "[Looking good]");
     }
-
-    @org.junit.jupiter.api.Test
-    void
 }
