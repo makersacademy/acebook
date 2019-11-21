@@ -1,4 +1,3 @@
-import app.Main;
 import com.despegar.sparkjava.test.SparkServer;
 import org.junit.ClassRule;
 import spark.servlet.SparkApplication;

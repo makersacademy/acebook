@@ -1,5 +1,3 @@
-package app;
-
 import models.*;
 import org.apache.log4j.BasicConfigurator;
 import org.flywaydb.core.Flyway;
