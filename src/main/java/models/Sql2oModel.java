@@ -139,5 +139,15 @@ public class Sql2oModel implements Model, UserModel {
         }
         return correct_password;
     }
+
+    public String getUserID(String email){
+        try (Connection conn = sql2o.open()) {
+            List<String> id = conn.createQuery("select id from users where email = :email")
+                    .addParameter("email", email)
+                    .executeAndFetch(String.class);
+            return id.toString().replaceAll("[\\[\\]]","");
+        }
+
+    }
 }
 

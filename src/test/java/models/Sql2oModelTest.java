@@ -134,7 +134,6 @@ class Sql2oModelTest {
 
     @org.junit.jupiter.api.Test
     void createUser(){
-        userModel.createUser("Example", "name","password","name@name.com");
-        assertTrue(userModel.verifyUser("name@name.com", "password"));
+        assertEquals(userModel.createUser("Example", "name","password","name@name.com").toString(), userModel.getUserID("name@name.com"));
     }
 }
