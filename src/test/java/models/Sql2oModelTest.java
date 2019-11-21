@@ -36,6 +36,7 @@ class Sql2oModelTest {
 
     UUID id = UUID.fromString("49921d6e-e210-4f68-ad7a-afac266278cb");
     UUID comment_id = UUID.fromString("49921d6e-e210-4f68-ad7a-afac266278cc");
+
     Connection conn = sql2o.open();
     Model model = new Sql2oModel(sql2o);
     UserModel userModel= new Sql2oModel(sql2o);
@@ -61,9 +62,8 @@ class Sql2oModelTest {
 
     @AfterEach
     void tearDown() {
-        Connection conn = sql2o.beginTransaction();
         conn.createQuery("TRUNCATE TABLE comments, posts, users")
-                .executeUpdate();
+        .executeUpdate();
     }
 
     @org.junit.jupiter.api.Test
@@ -73,7 +73,7 @@ class Sql2oModelTest {
         conn.createQuery("insert into posts(post_id, title, content, time, likes) VALUES (:post_id, 'Hello guys', 'good morning im having a swell day', :timestamp, 0)")
                 .addParameter("post_id", id)
                 .addParameter("timestamp", timestamp)
-                .executeUpdate();
+                .executeUpdate();g
         List<Post> posts = new ArrayList<Post>();
         posts.add(new Post(id, "Hello guys", "good morning im having a swell day", timestamp, 0));
         assertEquals(model.getAllPosts(), posts);
