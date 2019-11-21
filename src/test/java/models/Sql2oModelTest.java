@@ -90,7 +90,6 @@ class Sql2oModelTest {
     }
 
     @org.junit.jupiter.api.Test
-
     void addComment() {
         Connection conn = sql2o.beginTransaction();
         Model model = new Sql2oModel(sql2o);
@@ -101,5 +100,16 @@ class Sql2oModelTest {
         conn.commit();
         String comments = model.gettingComments(id);
         assertEquals( comments, "[Looking good]");
+    }
+
+    @org.junit.jupiter.api.Test
+    void addLike() {
+        Connection conn = sql2o.open();
+        Model model = new Sql2oModel(sql2o);
+        model.addLike(id.toString());
+        List<Integer> likes = conn.createQuery("select likes from posts where post_id =:id")
+                .addParameter("id", id.toString())
+                .executeAndFetch(Integer.class);
+        assertEquals(likes.get(0), 1);
     }
 }
