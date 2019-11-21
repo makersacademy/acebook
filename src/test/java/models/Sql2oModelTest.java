@@ -101,7 +101,7 @@ class Sql2oModelTest {
                 .executeAndFetch(Integer.class);
         assertEquals(likes.get(0), 1);
     }
-
+  
     @org.junit.jupiter.api.Test
     void deletePost() {
         model.deletePost(id.toString());
@@ -118,5 +118,24 @@ class Sql2oModelTest {
         System.out.println(comments.get(0));
         model.deleteComment(comments.get(0).comment_id.toString());
         assertTrue(model.getAllComments().isEmpty());
+
+    @org.junit.jupiter.api.Test
+    void createUser(){
+        UserModel userModel= new Sql2oModel(sql2o);
+        Connection conn = sql2o.beginTransaction();
+        conn.createQuery("TRUNCATE TABLE users")
+                .executeUpdate();
+        Model model = new Sql2oModel(sql2o);
+        conn.createQuery("insert into users(id, first_name, last_name, email, password) VALUES (:id, :first_name, :last_name, :email, :password)")
+                .addParameter("id", id)
+                .addParameter("first_name", "Example")
+                .addParameter("last_name", "name")
+                .addParameter("email", "name@name.com")
+                .addParameter("password", "password")
+                .executeUpdate();
+        conn.commit();
+        List<User> user = new ArrayList<>();
+        user.add(new User( id , "Example", "name", "name@name.com", "password"));
+        assertTrue(userModel.verifyUser("name@name.com", "password"));
     }
 }
