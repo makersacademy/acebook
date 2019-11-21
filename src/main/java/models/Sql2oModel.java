@@ -73,7 +73,7 @@ public class Sql2oModel implements Model, UserModel {
             String likes;
             i = Integer.parseInt(String.valueOf(likecount.get(0)));
             i += 1;
-//            likes = String.valueOf(i);
+            likes = String.valueOf(i);
             conn.createQuery("UPDATE posts SET likes = :i WHERE post_id =:id")
                     .addParameter("i", i)
                     .addParameter("id", id)
@@ -138,6 +138,27 @@ public class Sql2oModel implements Model, UserModel {
             };
         }
         return correct_password;
+    }
+
+    public boolean doesEmailExist(String email) {
+        try (Connection conn = sql2o.open()) {
+            List<String> emails = conn.createQuery("select email from users")
+                    .executeAndFetch(String.class);
+            for (String s : emails)
+                if (email.equals(s)) {
+                    return true;
+                }
+            return false;
+        }
+    }
+  
+    public String getUserID(String email){
+        try (Connection conn = sql2o.open()) {
+            List<String> id = conn.createQuery("select id from users where email = :email")
+                    .addParameter("email", email)
+                    .executeAndFetch(String.class);
+            return id.toString().replaceAll("[\\[\\]]","");
+        }
     }
 }
 
