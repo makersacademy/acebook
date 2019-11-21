@@ -112,5 +112,23 @@ public class Main {
            response.redirect("/posts");
            return null;
         });
+
+        post("/deletecomment", (request, response) -> {
+            String comment_id = request.queryParams("comment_id");
+
+            model.deleteComment(comment_id);
+
+            response.redirect("/posts");
+            return null;
+        });
+
+        post("/deletepost", (request, response) -> {
+            String post_id = request.queryParams("post_id");
+
+            model.deletePost(post_id);
+
+            response.redirect("/posts");
+            return null;
+        });
     };
 }

@@ -39,6 +39,15 @@ public class Sql2oModel implements Model, UserModel {
     }
 
     @Override
+    public void deletePost(String post_id) {
+        try (Connection conn = sql2o.open()) {
+            conn.createQuery("DELETE FROM posts WHERE post_id =:id")
+                    .addParameter("id", post_id)
+                    .executeUpdate();
+        }
+    }
+
+    @Override
     public UUID createUser(String first_name, String last_name, String password, String email) {
         try (Connection conn = sql2o.beginTransaction()) {
             UUID userUuid = UUID.randomUUID();
@@ -101,9 +110,18 @@ public class Sql2oModel implements Model, UserModel {
     @Override
     public List<Comment> getAllComments() {
         try (Connection conn = sql2o.open()) {
-            List<Comment> comments = conn.createQuery("SELECT post_id, comment FROM comments")
+            List<Comment> comments = conn.createQuery("SELECT * FROM comments")
                     .executeAndFetch(Comment.class);
             return comments;
+        }
+    }
+
+    @Override
+    public void deleteComment(String comment_id) {
+        try (Connection conn = sql2o.open()) {
+            conn.createQuery("DELETE FROM comments WHERE comment_id =:id")
+                    .addParameter("id", comment_id)
+                    .executeUpdate();
         }
     }
 
