@@ -61,7 +61,6 @@ class Sql2oModelTest {
 
     @AfterEach
     void tearDown() {
-        Connection conn = sql2o.beginTransaction();
         conn.createQuery("TRUNCATE TABLE comments, posts, users")
                 .executeUpdate();
     }
