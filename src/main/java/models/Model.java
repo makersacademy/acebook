@@ -8,6 +8,10 @@ import java.util.UUID;
 public interface Model {
     UUID createPost(String title, String content);
     List getAllPosts();
+    void addLike(String id);
+    String gettingComments(UUID post_id);
+    void postComment(String comment, String post_id);
+    List getAllComments();
 }
 
 
