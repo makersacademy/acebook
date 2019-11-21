@@ -20,10 +20,10 @@ public class MainTest {
     @ClassRule
     public static SparkServer<WebAppTestSparkApp> testServer = new SparkServer<>(WebAppTestSparkApp.class, 4567);
 
-    @Test
-    void serverRespondsSuccessfully() throws HttpClientException {
-        GetMethod request = testServer.get("/", false);
-        HttpResponse httpResponse = testServer.execute(request);
-        assertEquals(200, httpResponse.code());
-    }
+//    @Test
+//    void serverRespondsSuccessfully() throws HttpClientException {
+//        GetMethod request = testServer.get("/", false);
+//        HttpResponse httpResponse = testServer.execute(request);
+//        assertEquals(200, httpResponse.code());
+//    }
 }
