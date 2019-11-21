@@ -28,3 +28,6 @@ comment:
   branches: null          # branch names that can post comment
   after_n_builds: 1 #e.g., 5. The number of uploaded reports codecov will receive before posting a comment on a pull request.
 
+ignore:
+  - "target/classes/Main.class"
+  - "target/classes/VelocityTemplateEngine.class"
