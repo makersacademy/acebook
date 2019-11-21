@@ -10,25 +10,40 @@
     <form action="/newpost" method="get">
         <input type="submit" value="Make A New Post">
     </form>
+    <form action="/sign-up" method="get">
+        <input type="submit" value="Sign Up">
+    </form>
+   <form action="/" method="get">
+        <input type="submit" value="Sign In">
+   </form>
     <ul>
         #foreach($p in $posts)
             <br><br>
             <li> <b><u>$p.title</u></b><br>$p.content $p.time likes: $p.likes</li>
-            #foreach($c in $comments)
-                #if($c.post_id == $p.post_id)
-                    <li>$c.comment</li>
-                #end
-            #end
             <form action="/likepost" method="post">
                 <input type="hidden" name="likecount" value=$p.likes>
                 <input type="hidden" name="id" value=$p.post_id>
                 <input type="submit" value="Like">
+            </form>
+            <form action="/deletepost" method="post">
+                <input type="hidden" name="post_id" value=$p.post_id>
+                <input type="submit" value="Delete">
             </form>
             <form action="/postcomment" method="post">
                 <input type="text" name="comment">
                 <input type="hidden" name="post_id" value=$p.post_id>
                 <input type="submit" value="Post Comment">
             </form>
+            <h2> Comments: </h2>
+            #foreach($c in $comments)
+                #if($c.post_id == $p.post_id)
+                    <li>$c.comment</li>
+                    <form action="/deletecomment" method="post">
+                        <input type="hidden" name="comment_id" value=$c.comment_id>
+                        <input type="submit" value="Delete">
+                    </form>
+                #end
+            #end
         #end
     </ul>
   </body>
