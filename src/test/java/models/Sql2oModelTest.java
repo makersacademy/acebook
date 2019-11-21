@@ -90,7 +90,6 @@ class Sql2oModelTest {
     }
 
     @org.junit.jupiter.api.Test
-
     void addComment() {
         Connection conn = sql2o.beginTransaction();
         Model model = new Sql2oModel(sql2o);
@@ -102,4 +101,7 @@ class Sql2oModelTest {
         String comments = model.gettingComments(id);
         assertEquals( comments, "[Looking good]");
     }
+
+    @org.junit.jupiter.api.Test
+    void
 }
