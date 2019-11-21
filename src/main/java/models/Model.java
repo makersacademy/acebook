@@ -14,6 +14,7 @@ public interface Model {
     List getAllComments();
     void deleteComment(String comment_id);
     void deletePost(String post_id);
+    boolean doesEmailExist(String email);
 }
 
 

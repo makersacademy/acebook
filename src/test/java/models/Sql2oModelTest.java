@@ -136,4 +136,15 @@ class Sql2oModelTest {
     void createUser(){
         assertEquals(userModel.createUser("Example", "name","password","name@name.com").toString(), userModel.getUserID("name@name.com"));
     }
+
+    @org.junit.jupiter.api.Test
+    void doesUserAlreadyExistYes(){
+        userModel.createUser("Example", "lastname", "password", "test@gmail.com");
+        assertTrue(model.doesEmailExist("test@gmail.com"));
+    }
+
+    @org.junit.jupiter.api.Test
+    void doesUserAlreadyExistNo(){
+        assertFalse(model.doesEmailExist("test@gmail.com"));
+    }
 }
