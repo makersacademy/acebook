@@ -61,14 +61,13 @@ class Sql2oModelTest {
 
     @AfterEach
     void tearDown() {
-        Connection conn = sql2o.beginTransaction();
         conn.createQuery("TRUNCATE TABLE comments, posts, users")
                 .executeUpdate();
     }
 
     @org.junit.jupiter.api.Test
     void createPost() {
-        conn.createQuery("TRUNCATE TABLE comments, posts")
+        conn.createQuery("TRUNCATE TABLE comments, posts, users")
                 .executeUpdate();
         conn.createQuery("insert into posts(post_id, title, content, time, likes) VALUES (:post_id, 'Hello guys', 'good morning im having a swell day', :timestamp, 0)")
                 .addParameter("post_id", id)

@@ -73,7 +73,7 @@ public class Sql2oModel implements Model, UserModel {
             String likes;
             i = Integer.parseInt(String.valueOf(likecount.get(0)));
             i += 1;
-//            likes = String.valueOf(i);
+            likes = String.valueOf(i);
             conn.createQuery("UPDATE posts SET likes = :i WHERE post_id =:id")
                     .addParameter("i", i)
                     .addParameter("id", id)
