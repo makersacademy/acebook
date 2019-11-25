@@ -1,5 +1,8 @@
 ### Acebook
 
+[![Build Status](https://travis-ci.org/luke-jones-1/acebook-java-spark-template.svg?branch=master)](https://travis-ci.org/luke-jones-1/acebook-java-spark-template)
+[![codecov](https://codecov.io/gh/luke-jones-1/acebook-java-spark-template/branch/master/graph/badge.svg)](https://codecov.io/gh/luke-jones-1/acebook-java-spark-template)
+
 #### Running the application
 
  - Make sure postgres is running
@@ -31,3 +34,19 @@
  - [Velocity template blog post](https://www.learnhowtoprogram.com/java-old-reference-only/web-applications-in-java/velocity-templates-in-spark)
  - [Velocity template + spark project example](https://github.com/epicodus-lessons/java-hello-friend-with-spark)
  - [Flyway migrations (db schema management) docs](https://flywaydb.org/documentation/migrations) 
+
+#### Posting user stories (Leatherhead)
+- As a user I would like to see the latest posts
+  listed on the acebook
+- As a user I would like to create a new post
+  and have it appear with the latest posts
+- As a user I would like to be able to like a post
+  and see the number of likes next to the post
+- As a user I only want people to be able to
+  like a post once to avoid spam
+- As a user I would like to be able to make
+  and receive comments on posts
+- As a user I would like to see
+  the date of a post
+
+heyfrens
