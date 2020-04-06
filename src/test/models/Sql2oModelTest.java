@@ -11,6 +11,8 @@ import org.sql2o.Sql2o;
 import org.sql2o.converters.UUIDConverter;
 import org.sql2o.quirks.PostgresQuirks;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -54,11 +56,18 @@ class Sql2oModelTest {
         conn.commit();
     }
 
-    @Test
-    void createPost() {
-    }
+//    @Test
+//    void createPost() {
+//        Model model = new Sql2oModel(sql2o);
+//        model.createItem("Holiday", "Had such a great time");
+//        assertEquals(model.getAllItems().size(), 2);
+//    }
 
     @Test
     void getAllPosts() {
+        Model model = new Sql2oModel(sql2o);
+        List<Post> items = new ArrayList<Post>();
+        items.add(new Post(id, "example title", "example content"));
+        assertEquals(model.getAllPosts(), items);
     }
 }
