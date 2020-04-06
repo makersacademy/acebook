@@ -56,12 +56,12 @@ class Sql2oModelTest {
         conn.commit();
     }
 
-//    @Test
-//    void createPost() {
-//        Model model = new Sql2oModel(sql2o);
-//        model.createItem("Holiday", "Had such a great time");
-//        assertEquals(model.getAllItems().size(), 2);
-//    }
+    @Test
+    void createPost() {
+        Model model = new Sql2oModel(sql2o);
+        model.createPost("Holiday", "Had such a great time");
+        assertEquals(model.getAllPosts().size(), 2);
+    }
 
     @Test
     void getAllPosts() {

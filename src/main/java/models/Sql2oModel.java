@@ -17,8 +17,16 @@ public class Sql2oModel implements Model {
 
     @Override
     public UUID createPost(String title, String content) {
-        //TODO - implement this
-        return null;
+        try (Connection conn = sql2o.beginTransaction()) {
+            UUID postUuid = UUID.randomUUID();
+            conn.createQuery("insert into posts(post_id, title, content) VALUES (:post_id, :title, :content)")
+                    .addParameter("post_id", postUuid)
+                    .addParameter("title", title)
+                    .addParameter("content", content)
+                    .executeUpdate();
+            conn.commit();
+            return postUuid;
+        }
     }
 
     @Override
@@ -26,6 +34,7 @@ public class Sql2oModel implements Model {
         try (Connection conn = sql2o.open()) {
             List<Post> items = conn.createQuery("select * from posts")
                     .executeAndFetch(Post.class);
+
             return items;
         }
 
