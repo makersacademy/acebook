@@ -27,4 +27,18 @@ public class Sql2oModel implements Model {
         return null;
     }
 
+    @Override
+    public void addUser(String user_name, String password) {
+        try (Connection conn = sql2o.beginTransaction()) {
+            UUID personUuid = UUID.randomUUID();
+            conn.createQuery("insert into person(user_id, user_name, password) VALUES (:user_id, :user_name, :password)")
+                    .addParameter("user_id", personUuid)
+                    .addParameter("user_name", user_name)
+                    .addParameter("password", password)
+                    .executeUpdate();
+            conn.commit();
+
+        }
+    }
+
 }
