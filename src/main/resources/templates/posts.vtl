@@ -6,9 +6,21 @@
   </head>
   <body>
     <h1>Welcome to acebook</h1>
+
+    <div>
+        <form action="/posts/new" method ="POST">
+
+          <label> Title:</label><br>
+          <input type="text"  name="title" placeholder ="Title"><br>
+          <label>Content:</label><br>
+          <input type="text"  name="content" placeholder="Whats on your mind?"><br><br>
+          <input type="submit" value="Post!">
+        </form>
+        </div>
+
     <ul>
     #foreach ( $t in $posts )
-   <li> $t.title $t.content </li>
+   <li> $t.title $t.content $t.post_date </li>
 #end
 
     </ul>
