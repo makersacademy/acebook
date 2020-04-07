@@ -1,12 +1,10 @@
 create table posts(
  post_id VARCHAR,
- title VARCHAR,
  content VARCHAR
 );
 
 --In db acebook,table Posts:
-ALTER TABLE posts ADD COLUMN date VARCHAR;
-ALTER TABLE posts ADD COLUMN time timestamp;
+ALTER TABLE posts ADD COLUMN time VARCHAR;
 
 
 
