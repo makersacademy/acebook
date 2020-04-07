@@ -3,6 +3,8 @@ package models;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,13 +18,15 @@ public class Sql2oModel implements Model {
     }
 
     @Override
-    public UUID createPost(String title, String content) {
+    public UUID createPost(String title, String content, Timestamp post_date) {
         try (Connection conn = sql2o.beginTransaction()) {
             UUID postUuid = UUID.randomUUID();
-            conn.createQuery("insert into posts(post_id, title, content) VALUES (:post_id, :title, :content)")
+
+            conn.createQuery("insert into posts(post_id, title, content, post_date) VALUES (:post_id, :title, :content, :post_date)")
                     .addParameter("post_id", postUuid)
                     .addParameter("title", title)
                     .addParameter("content", content)
+                    .addParameter("post_date", post_date)
                     .executeUpdate();
             conn.commit();
             return postUuid;
