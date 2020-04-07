@@ -7,6 +7,7 @@ import org.sql2o.quirks.PostgresQuirks;
 import spark.ModelAndView;
 
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -14,6 +15,7 @@ import static spark.Spark.get;
 import static spark.Spark.post;
 
 public class Main {
+
 
 
     public static void main(String[] args) {
@@ -54,10 +56,14 @@ public class Main {
         post("/dashboard", (request, response) -> {
 
             String content = request.queryParams("send_post");
+            LocalDateTime currentTimestamp = LocalDateTime.now();
+            model.createPost(content, String.valueOf(currentTimestamp));
 
-            // Find a way to pass Timestamp time
 
-        return new ModelAndView(new HashMap(), "templates/dashboard.vtl");
+
+            HashMap dashboard = new HashMap();
+
+        return new ModelAndView(dashboard, "templates/dashboard.vtl");
     }, new VelocityTemplateEngine());
 
     }

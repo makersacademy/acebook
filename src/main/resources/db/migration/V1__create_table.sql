@@ -4,7 +4,7 @@ create table posts(
 );
 
 --In db acebook,table Posts:
-ALTER TABLE posts ADD COLUMN time timestamp;
+ALTER TABLE posts ADD COLUMN time VARCHAR;
 
 
 
