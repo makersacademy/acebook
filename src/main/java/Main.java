@@ -6,6 +6,8 @@ import org.sql2o.converters.UUIDConverter;
 import org.sql2o.quirks.PostgresQuirks;
 import spark.ModelAndView;
 
+
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -13,6 +15,8 @@ import static spark.Spark.get;
 import static spark.Spark.post;
 
 public class Main {
+
+
 
     public static void main(String[] args) {
         String dbName = "acebook";
@@ -34,6 +38,7 @@ public class Main {
 
         get("/", (req, res) -> {
 
+
 //            HashMap homepage = new HashMap();
 
 
@@ -49,6 +54,37 @@ public class Main {
             return new ModelAndView(homepage, "templates/homepage.vtl");
         }, new VelocityTemplateEngine()
         );
+
+
+
+
+
+
+        get("/dashboard", (req, res) -> {
+
+
+//            HashMap posts = new HashMap();
+
+
+            return new ModelAndView(new HashMap(), "templates/dashboard.vtl");
+        }, new VelocityTemplateEngine());
+
+
+
+        post("/dashboard", (request, response) -> {
+
+            String content = request.queryParams("send_post");
+            LocalDateTime currentTimestamp = LocalDateTime.now();
+            model.createPost(content, String.valueOf(currentTimestamp));
+
+
+
+            HashMap dashboard = new HashMap();
+
+        return new ModelAndView(dashboard, "templates/dashboard.vtl");
+    }, new VelocityTemplateEngine());
+
+
     }
 
 }
