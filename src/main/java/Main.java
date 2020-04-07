@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import static spark.Spark.get;
+import static spark.Spark.post;
 
 public class Main {
 
@@ -47,14 +48,14 @@ if(model.getAllPosts().size() == 0) {
             return new ModelAndView(posts, "templates/posts.vtl");
         }, new VelocityTemplateEngine());
 
-//        post("/posts/new", (req, res) -> {
-//            String title = req.queryParams("title");
-//            String content = req.queryParams("content");
-//            Timestamp post_date = req.queryParams(new Timestamp(120,3,7,9,45,30,0));
-//            model.createPost(title, content, post_date);
-//            res.redirect("/posts");
-//            return null;
-//        });
+        post("/posts/new", (req, res) -> {
+            String title = req.queryParams("title");
+            String content = req.queryParams("content");
+            Timestamp post_date = new Timestamp(120,3,7,9,45,30,0);
+            model.createPost(title, content, post_date);
+            res.redirect("/posts");
+            return null;
+        });
     }
     }
 

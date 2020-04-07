@@ -30,6 +30,7 @@ class Sql2oModelTest {
     });
 
     UUID id = UUID.fromString("49921d6e-e210-4f68-ad7a-afac266278cb");
+    UUID id2 = UUID.fromString("59921d6e-e210-4f68-ad7a-afac266278cb");
     Timestamp ts = new Timestamp(120,3,7,6,45,20,0);
 
     @BeforeAll
