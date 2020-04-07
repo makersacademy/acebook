@@ -1,6 +1,5 @@
 import models.Model;
 import models.Sql2oModel;
-import org.apache.log4j.BasicConfigurator;
 import org.flywaydb.core.Flyway;
 import org.sql2o.Sql2o;
 import org.sql2o.converters.UUIDConverter;
@@ -47,5 +46,16 @@ if(model.getAllPosts().size() == 0) {
 
             return new ModelAndView(posts, "templates/posts.vtl");
         }, new VelocityTemplateEngine());
+
+//        post("/posts/new", (req, res) -> {
+//            String title = req.queryParams("title");
+//            String content = req.queryParams("content");
+//            Timestamp post_date = req.queryParams(new Timestamp(120,3,7,9,45,30,0));
+//            model.createPost(title, content, post_date);
+//            res.redirect("/posts");
+//            return null;
+//        });
     }
-}
+    }
+
+
