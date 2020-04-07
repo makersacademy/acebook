@@ -75,4 +75,27 @@ class Sql2oModelTest {
         items.add(new Post(id, "example title", "example content",ts));
         assertEquals(model.getAllPosts(), items);
     }
+
+    @Test
+    void userSignup() {
+        Model model = new Sql2oModel(sql2o);
+        Connection conn = sql2o.beginTransaction();
+        conn.createQuery("insert into users(user_id, first_name, last_name, email, password) VALUES (:user_id, :first_name, :last_name, :email, :password)")
+                .addParameter("user_id", id)
+                .addParameter("first_name", "example first_name")
+                .addParameter("last_name", "example last_name")
+                .addParameter("email", "example@gmail.com")
+                .addParameter("password", "example" )
+                .executeUpdate();
+
+        conn.commit();
+
+    }
+
+//    @Test
+//    void likePosts() {
+//        Model model = new Sql2oModel(sql2o);
+//        model.likePosts(id);
+//        list<integer> likes = new ArrayList<>();
+//    }
 }
