@@ -1,13 +1,14 @@
 package models;
 
 
-import java.sql.Date;
 import java.util.List;
-import java.util.UUID;
 
 public interface Model {
-    UUID createPost(String title, String content);
+
+    void createPost(String content, String time);
+
     List getAllPosts();
+    void addUser(String user_name, String password);
 }
 
 
