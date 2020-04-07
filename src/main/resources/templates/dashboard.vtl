@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Acebook!</title>
+    <link href='https://fonts.googleapis.com/css?family=Sofia' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=El Messiri' rel='stylesheet'>
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css'>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+
+    <style>
+    .title-font{
+        font-family: 'Sofia';
+        font-size: 30px;
+        margin-top: 5rem;
+        margin-bottom: 5rem;
+        display: flex;
+        flex-wrap: wrap;
+        align-content: center;
+        justify-content: center;
+        align-items: center;
+    }
+
+
+    body {
+    background: linear-gradient(to right, #feac5e, #c779d0, #4bc0c8);
+    }
+    </style>
+
+
+  </head>
+
+
+  <body>
+    <div class="title-font">
+        <h1 style="font-size: 50px; color: cornsilk;">&#129412; Acebook &#x2728;</h1>
+    </div>
+
+
+    <form action="/dashboard" method="post" class="form-group d-flex flex-column align-items-center">
+        <label for="exampleFormControlTextarea1">Any thoughts today? :</label>
+         <textarea class="form-control" id="exampleFormControlTextarea1" name= "send_post" rows="10"></textarea>
+        <button type="submit" class="btn btn-primary" style="width: 100px;">Send</button>
+    </form>
+
+  </body>
+
+</html>
