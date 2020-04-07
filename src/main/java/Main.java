@@ -39,7 +39,7 @@ public class Main {
 
         get("/posts", (req, res) -> {
 if(model.getAllPosts().size() == 0) {
-    UUID id = model.createPost("Holiday", "Celebrate", new Timestamp(120,3,7,9,45,30,0));
+    UUID id = model.createPost("Holiday", "Celebrate", new Timestamp(System.currentTimeMillis()));
 }
 
         HashMap posts = new HashMap();
@@ -51,7 +51,7 @@ if(model.getAllPosts().size() == 0) {
         post("/posts/new", (req, res) -> {
             String title = req.queryParams("title");
             String content = req.queryParams("content");
-            Timestamp post_date = new Timestamp(120,3,7,9,45,30,0);
+            Timestamp post_date = new Timestamp(System.currentTimeMillis());
             model.createPost(title, content, post_date);
             res.redirect("/posts");
             return null;

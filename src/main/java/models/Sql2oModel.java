@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
 
-public class Sql2oModel implements Model {
+public class Sql2oModel implements Model, UserModel {
 
     private Sql2o sql2o;
 

@@ -16,8 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.postgresql.jdbc2.EscapedFunctions.NOW;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class Sql2oModelTest {
 
@@ -31,7 +30,8 @@ class Sql2oModelTest {
 
     UUID id = UUID.fromString("49921d6e-e210-4f68-ad7a-afac266278cb");
     UUID id2 = UUID.fromString("59921d6e-e210-4f68-ad7a-afac266278cb");
-    Timestamp ts = new Timestamp(120,3,7,6,45,20,0);
+    Timestamp ts = new Timestamp(System.currentTimeMillis());
+//    Timestamp ts = new Timestamp(120,3,7,6,45,20,0);
 
     @BeforeAll
     static void setUpClass() {
@@ -64,7 +64,7 @@ class Sql2oModelTest {
     @Test
     void createPost() {
         Model model = new Sql2oModel(sql2o);
-        model.createPost("Holiday", "Had such a great time", new Timestamp(120,3,7,6,45,20,0));
+        model.createPost("Holiday", "Had such a great time", new Timestamp(System.currentTimeMillis()));
         assertEquals(model.getAllPosts().size(), 2);
     }
 
@@ -78,7 +78,9 @@ class Sql2oModelTest {
 
     @Test
     void userSignup() {
-        Model model = new Sql2oModel(sql2o);
+
+        UserModel user_model = (UserModel) new Sql2oModel(sql2o);
+
         Connection conn = sql2o.beginTransaction();
         conn.createQuery("insert into users(user_id, first_name, last_name, email, password) VALUES (:user_id, :first_name, :last_name, :email, :password)")
                 .addParameter("user_id", id)

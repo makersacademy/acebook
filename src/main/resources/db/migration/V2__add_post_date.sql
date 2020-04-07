@@ -1,1 +1,1 @@
-ALTER TABLE posts ADD COLUMN post_date timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE posts ADD COLUMN post_date Timestamp;
