@@ -9,7 +9,6 @@ import java.util.UUID;
 public class Sql2oModel implements Model {
 
     private Sql2o sql2o;
-    private Object conn;
 
     public Sql2oModel(Sql2o sql2o) {
         this.sql2o = sql2o;
