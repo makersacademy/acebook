@@ -31,8 +31,11 @@ public class Sql2oModel implements Model {
 
     @Override
     public List<Post> getAllPosts() {
-        //TODO - implement this
-        return null;
+        try (Connection conn = sql2o.open()) {
+            List<Post> items = conn.createQuery("select * from posts")
+                    .executeAndFetch(Post.class);
+            return items;
+        }
     }
 
     @Override
