@@ -7,6 +7,7 @@ import org.sql2o.converters.UUIDConverter;
 import org.sql2o.quirks.PostgresQuirks;
 import spark.ModelAndView;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -38,7 +39,7 @@ public class Main {
 
         get("/posts", (req, res) -> {
 if(model.getAllPosts().size() == 0) {
-    UUID id = model.createPost("Holiday", "Celebrate");
+    UUID id = model.createPost("Holiday", "Celebrate", new Timestamp(120,3,7,9,45,30,0));
 }
 
         HashMap posts = new HashMap();

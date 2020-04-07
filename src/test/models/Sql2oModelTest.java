@@ -11,11 +11,13 @@ import org.sql2o.Sql2o;
 import org.sql2o.converters.UUIDConverter;
 import org.sql2o.quirks.PostgresQuirks;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.postgresql.jdbc2.EscapedFunctions.NOW;
 
 class Sql2oModelTest {
 
@@ -28,6 +30,7 @@ class Sql2oModelTest {
     });
 
     UUID id = UUID.fromString("49921d6e-e210-4f68-ad7a-afac266278cb");
+    Timestamp ts = new Timestamp(120,3,7,6,45,20,0);
 
     @BeforeAll
     static void setUpClass() {
@@ -39,10 +42,11 @@ class Sql2oModelTest {
     @BeforeEach
     void setUp() {
         Connection conn = sql2o.beginTransaction();
-        conn.createQuery("insert into posts(post_id, title, content) VALUES (:post_id, :title, :content)")
+        conn.createQuery("insert into posts(post_id, title, content, post_date) VALUES (:post_id, :title, :content, :post_date)")
                 .addParameter("post_id", id)
                 .addParameter("title", "example title")
                 .addParameter("content", "example content")
+                .addParameter("post_date",ts)
                 .executeUpdate();
 
         conn.commit();
@@ -59,7 +63,7 @@ class Sql2oModelTest {
     @Test
     void createPost() {
         Model model = new Sql2oModel(sql2o);
-        model.createPost("Holiday", "Had such a great time");
+        model.createPost("Holiday", "Had such a great time", new Timestamp(120,3,7,6,45,20,0));
         assertEquals(model.getAllPosts().size(), 2);
     }
 
@@ -67,7 +71,7 @@ class Sql2oModelTest {
     void getAllPosts() {
         Model model = new Sql2oModel(sql2o);
         List<Post> items = new ArrayList<Post>();
-        items.add(new Post(id, "example title", "example content"));
+        items.add(new Post(id, "example title", "example content",ts));
         assertEquals(model.getAllPosts(), items);
     }
 }
