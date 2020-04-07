@@ -3,7 +3,6 @@ package models;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
@@ -43,4 +42,28 @@ public class Sql2oModel implements Model {
         }
 
     }
-}
+
+    @Override
+    public UUID userSignup(String first_name, String last_name, String email, String password) {
+        try (Connection conn = sql2o.beginTransaction()) {
+            UUID userUuid = UUID.randomUUID();
+
+            conn.createQuery("insert into users(user_id, first_name, last_name, email, password) VALUES (:user_id, :first_name, :last_name, :email, :password)")
+                    .addParameter("user_id", userUuid)
+                    .addParameter("first_name", "example first_name")
+                    .addParameter("last_name", "example last_name")
+                    .addParameter("email", "example@gmail.com")
+                    .addParameter("password", "example" )
+                    .executeUpdate();
+            conn.commit();
+            return userUuid;
+        }
+    }
+
+//    @Override
+//    public void likePosts(UUID id) {
+//
+//
+//    }
+
+    }

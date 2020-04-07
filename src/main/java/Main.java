@@ -56,6 +56,20 @@ if(model.getAllPosts().size() == 0) {
             res.redirect("/posts");
             return null;
         });
+
+        get("/usersignup", (req, res) -> {
+
+            HashMap usersignup = new HashMap();
+
+            return new ModelAndView(usersignup, "templates/usersignup.vtl");
+        }, new VelocityTemplateEngine());
+
+        get("/userlogin", (req, res) -> {
+
+            HashMap userlogin = new HashMap();
+
+            return new ModelAndView(userlogin, "templates/userlogin.vtl");
+        }, new VelocityTemplateEngine());
     }
     }
 
