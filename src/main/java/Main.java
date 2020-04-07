@@ -38,26 +38,22 @@ public class Main {
 
         get("/", (req, res) -> {
 
-
 //            HashMap homepage = new HashMap();
-
 
             return new ModelAndView(new HashMap(), "templates/homepage.vtl");
         }, new VelocityTemplateEngine());
 
-        post("/", (req, res) -> {
+        post("/", (request, response) -> {
+
+            String user_name = request.queryParams("user_name");
+            String password = request.queryParams("password");
+            model.addUser(user_name, password);
 
             HashMap homepage = new HashMap();
-
-            model.addUser("fakeUser", "fakePassword");
 
             return new ModelAndView(homepage, "templates/homepage.vtl");
         }, new VelocityTemplateEngine()
         );
-
-
-
-
 
 
         get("/dashboard", (req, res) -> {
