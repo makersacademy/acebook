@@ -57,12 +57,12 @@ public class Main {
 
 
         get("/dashboard", (req, res) -> {
+            model.getAllPosts();
+            HashMap posts = new HashMap();
+            posts.put("posts",model.getAllPosts());
 
 
-//            HashMap posts = new HashMap();
-
-
-            return new ModelAndView(new HashMap(), "templates/dashboard.vtl");
+            return new ModelAndView(posts, "templates/dashboard.vtl");
         }, new VelocityTemplateEngine());
 
 
@@ -73,11 +73,11 @@ public class Main {
             LocalDateTime currentTimestamp = LocalDateTime.now();
             model.createPost(content, String.valueOf(currentTimestamp));
 
+            model.getAllPosts();
+            HashMap posts = new HashMap();
+            posts.put("posts",model.getAllPosts());
 
-
-            HashMap dashboard = new HashMap();
-
-        return new ModelAndView(dashboard, "templates/dashboard.vtl");
+        return new ModelAndView(posts, "templates/dashboard.vtl");
     }, new VelocityTemplateEngine());
 
 

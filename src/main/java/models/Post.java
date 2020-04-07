@@ -10,9 +10,9 @@ import lombok.Data;
 public class Post {
     private UUID post_id;
     private String content;
-    private Timestamp time;
+    private String time;
 
-    public Post(UUID post_id, String content, Timestamp time) {
+    public Post(UUID post_id, String content, String time) {
         this.post_id = post_id;
         this.content = content;
         this.time = time;
