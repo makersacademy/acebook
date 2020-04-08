@@ -10,4 +10,4 @@ ALTER TABLE posts ADD COLUMN time VARCHAR;
 
 
 --Create new user table in acebook db:
-CREATE TABLE person(user_id SERIAL PRIMARY KEY, user_name VARCHAR(60), password VARCHAR);
+CREATE TABLE person(user_id VARCHAR, user_name VARCHAR(60), password VARCHAR);

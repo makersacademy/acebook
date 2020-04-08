@@ -5,6 +5,7 @@ import org.sql2o.Sql2o;
 import org.sql2o.converters.UUIDConverter;
 import org.sql2o.quirks.PostgresQuirks;
 import spark.ModelAndView;
+import spark.Redirect;
 
 
 import java.time.LocalDateTime;
@@ -15,7 +16,6 @@ import static spark.Spark.get;
 import static spark.Spark.post;
 
 public class Main {
-
 
 
     public static void main(String[] args) {
@@ -36,7 +36,7 @@ public class Main {
 
         Model model = new Sql2oModel(sql2o);
 
-        get("/", (req, res) -> {
+        get("/", (request, response) -> {
 
 //            HashMap homepage = new HashMap();
 
@@ -45,26 +45,27 @@ public class Main {
 
         post("/", (request, response) -> {
 
-            String user_name = request.queryParams("user_name_1");
-            String password = request.queryParams("psw");
-            model.addUser(user_name, password);
+                    String user_name = request.queryParams("user_name_1");
+                    String password = request.queryParams("psw");
+                    model.addUser(user_name, password);
 
-            HashMap homepage = new HashMap();
+//                HashMap homepage = new HashMap();
 
-            return new ModelAndView(homepage, "templates/homepage.vtl");
-        }, new VelocityTemplateEngine()
+                    response.redirect("/dashboard");
+                    return null;
+                }
+
         );
 
 
         get("/dashboard", (req, res) -> {
             model.getAllPosts();
             HashMap posts = new HashMap();
-            posts.put("posts",model.getAllPosts());
+            posts.put("posts", model.getAllPosts());
 
 
             return new ModelAndView(posts, "templates/dashboard.vtl");
         }, new VelocityTemplateEngine());
-
 
 
         post("/dashboard", (request, response) -> {
@@ -73,14 +74,10 @@ public class Main {
             LocalDateTime currentTimestamp = LocalDateTime.now();
             model.createPost(content, String.valueOf(currentTimestamp));
 
-            model.getAllPosts();
-            HashMap posts = new HashMap();
-            posts.put("posts",model.getAllPosts());
 
-        return new ModelAndView(posts, "templates/dashboard.vtl");
-    }, new VelocityTemplateEngine());
-
+            response.redirect("/dashboard");
+            return null;
+        });
 
     }
-
 }
