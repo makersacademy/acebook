@@ -1,6 +1,29 @@
 <!DOCTYPE html>
 <html>
   <head>
+  <nav class="navbar navbar-expand-lg navbar-light" style="background: linear-gradient(to left, #D3CCE3, #E9E4F0);">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+        <li class="nav-item active">
+          <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+        </li>
+         <li class="nav-item active">
+          <a class="nav-link" >Friends</a>
+           </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="/">Sign out</a>
+        </li>
+      </ul>
+      <form class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search for friends!" aria-label="Search">
+        <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </div>
+  </nav>
     <title>Acebook!</title>
     <link href='https://fonts.googleapis.com/css?family=Sofia' rel='stylesheet'>
     <link href='https://fonts.googleapis.com/css?family=El Messiri' rel='stylesheet'>
@@ -46,7 +69,7 @@
     }
 
     body {
-    background: linear-gradient(to right, #feac5e, #c779d0, #4bc0c8);
+    background: linear-gradient(to right, #DAE2F8, #D6A4A4);
     }
     </style>
 
@@ -58,6 +81,12 @@
     <div class="title-font">
         <h1 style="font-size: 50px; color: cornsilk;">&#129412; Acebook &#x2728;</h1>
     </div>
+
+     <div class="title-font">
+     #foreach( $user_name in $userName )
+          <h3 style="font-size: 30px; color: cornsilk;">Hello, $user_name.user_name </h3>
+            #end
+        </div>
 
     <div class="container text-area-styling">
       <form action="/dashboard" method="post" class="form-group d-flex flex-column align-items-center">
