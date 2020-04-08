@@ -45,8 +45,8 @@ public class Main {
 
         post("/", (request, response) -> {
 
-            String user_name = request.queryParams("user_name");
-            String password = request.queryParams("password");
+            String user_name = request.queryParams("user_name_1");
+            String password = request.queryParams("psw");
             model.addUser(user_name, password);
 
             HashMap homepage = new HashMap();
