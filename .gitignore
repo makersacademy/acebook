@@ -3,3 +3,11 @@ target/
 functional_tests/Gemfile.lock
 functional_tests/log_app_err.txt
 functional_tests/log_app_out.txt
+
+
+acebook.iml
+example.log.1
+velocity.log
+example.log
+velocity.log.1
+
