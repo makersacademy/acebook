@@ -16,9 +16,17 @@ public class Sql2oModel implements Model {
     }
 
     @Override
-    public UUID createPost(String title, String content) {
-        //TODO - implement this
-        return null;
+    public void createPost(String content, String time) {
+        try (Connection conn = sql2o.beginTransaction()) {
+            UUID postsUuid = UUID.randomUUID();
+            conn.createQuery("insert into posts(post_id, content, time) VALUES (:post_id, :content, :time)")
+                    .addParameter("post_id", postsUuid)
+                    .addParameter("content", content)
+                    .addParameter("time", time)
+                    .executeUpdate();
+            conn.commit();
+
+        }
     }
 
     @Override
